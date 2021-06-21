@@ -30,21 +30,21 @@
 
 ### How to start
 
-1. Start Zookeeper (with default properties) and validate whether it is accessible.
+1. Start Zookeeper (with default properties) and check its accessibility.
 
    ```bash
    $ zookeeper-server-start.sh -daemon /root/kafka/config/zookeeper.properties
    $ telnet localhost 2181
    ```
 
-2. Update these following fields in the `server.properties` configuration file.
+2. Update the following fields in the `server.properties` configuration file.
 
    ```toml
    listeners=PLAINTEXT://localhost:9092
    advertised.listeners=PLAINTEXT://localhost:9092
    ```
    
-3. Start Kafka (with default properties) and validate whether it is accessible.
+3. Start Kafka (with default properties) and check its accessibility.
 
    ```bash
    $ kafka-server-start.sh -daemon /root/kafka/config/server.properties
@@ -74,7 +74,7 @@ $ kafka-console-producer.sh --topic sample-topic --bootstrap-server localhost:90
 #### Read events from a topic
 
 ```bash
-$ kafka-console-consumer.sh --topic quickstart-events --from-beginning --bootstrap-server localhost:9092
+$ kafka-console-consumer.sh --topic sample-topic --from-beginning --bootstrap-server localhost:9092
 ```
 
 #### [Delete a topic](https://stackoverflow.com/questions/33537950/how-to-delete-a-topic-in-apache-kafka)
@@ -87,13 +87,13 @@ $ kafka-topics.sh --list --bootstrap-server localhost:9092
 
 ### How to stop
 
-1. Stop Zookeeper and validate whether it is accessible.
+1. Stop Zookeeper and check its accessibility.
 
    ```bash
    $ zookeeper-server-stop.sh
    $ telnet localhost 2181
    ```
-2. Stop Kafka and validate whether it is accessible.
+2. Stop Kafka and check its accessibility.
 
    ```bash
    $ kafka-server-stop.sh
