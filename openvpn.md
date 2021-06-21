@@ -1,4 +1,4 @@
-# OpenVPN]
+# OpenVPN
 
 ## Installing
 
@@ -22,7 +22,7 @@
 
 #### Install Easy RSA
 
-1. Download and extract the `Easy RSA`  directory.
+1. Download and extract the `Easy RSA` directory.
 
    ```bash
    $ sudo yum install -y wget
@@ -30,7 +30,7 @@
    $ tar -xf v3.0.8.tar.gz
    ```
 
-2. Copy  the `Easy RSA` directory to the `/etc/openvpn `directory.
+2. Copy  the `Easy RSA` directory to the `/etc/openvpn` directory.
 
    ```bash
    $ sudo mkdir /etc/openvpn/easy-rsa
@@ -112,7 +112,7 @@
 
 ### How to configure
 
-1. Copy a sample configuration file to the `/etc/openvpn/` directory.
+1. Copy a sample configuration file to the `/etc/openvpn` directory.
 
    ```bash
    $ sudo /usr/share/doc/openvpn-2.4.11/sample/sample-config-files/server.conf /etc/openvpn
@@ -263,7 +263,7 @@
 
 ### Note
 
-* The path `~/client` to the keys, the certificates and the client configuration file is of your choice.
+* The path `~/client/` to the keys, the certificates and the client configuration file is of your choice.
 * [How to create authorized users for OpenVPN clients.](https://openvpn.net/faq/how-to-add-authorized-users-to-the-vpn/)
 
 ## References
