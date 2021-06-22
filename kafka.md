@@ -16,7 +16,7 @@
     $ tar -xzf kafka_2.13-2.8.0.tgz
     ```
 
-3. Add Kafka environment to the `.bash_profile` file and initialize it.
+3. Add **Kafka** environment to the `.bash_profile` file and initialize it.
 
     ```bash
     $ ln -s kafka_2.13-2.8.0 kafka
@@ -30,7 +30,7 @@
 
 ### How to start
 
-1. Start Zookeeper (with default properties) and check its accessibility.
+1. Start **Zookeeper** (with default properties) and check its accessibility.
 
    ```bash
    $ zookeeper-server-start.sh -daemon /root/kafka/config/zookeeper.properties
@@ -44,7 +44,7 @@
    advertised.listeners=PLAINTEXT://localhost:9092
    ```
    
-3. Start Kafka (with default properties) and check its accessibility.
+3. Start **Kafka** (with default properties) and check its accessibility.
 
    ```bash
    $ kafka-server-start.sh -daemon /root/kafka/config/server.properties
@@ -87,13 +87,13 @@ $ kafka-topics.sh --list --bootstrap-server localhost:9092
 
 ### How to stop
 
-1. Stop Zookeeper and check its accessibility.
+1. Stop **Zookeeper** and check its accessibility.
 
    ```bash
    $ zookeeper-server-stop.sh
    $ telnet localhost 2181
    ```
-2. Stop Kafka and check its accessibility.
+2. Stop **Kafka** and check its accessibility.
 
    ```bash
    $ kafka-server-stop.sh

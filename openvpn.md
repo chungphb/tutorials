@@ -14,7 +14,7 @@
    $ sudo yum update -y
    ```
 
-2. Install OpenVPN.
+2. Install **OpenVPN**.
 
    ```bash
    $ sudo yum install -y openvpn
@@ -106,7 +106,7 @@
 
 ### Note
 
-* The name `client` at Step 8 is of your choice.
+* The client name `client` is of your choice.
 
 ## Configuration
 
@@ -139,7 +139,7 @@
 
 ### Note
 
-- The name `myvpn` of the static encryption key is of your choice.
+- The static encryption key `myvpn` is of your choice.
 
 ## Routing
 
@@ -151,7 +151,7 @@
    $ sudo firewall-cmd --get-active-zones
    ```
 
-2. Add the `openvpn` service to the list of services allowed by FirewallD within the active zone.
+2. Add the `openvpn` service to the list of services allowed by **FirewallD** within the active zone.
 
    ```bash
    $ sudo firewall-cmd --zone=trusted --add-service openvpn
@@ -177,7 +177,7 @@
    $ sudo firewall-cmd --query-masquerade
    ```
 
-6. Forward routing to the OpenVPN subnet.
+6. Forward routing to the **OpenVPN** subnet.
 
    ```bash
    $ VAR=$(ip route get 8.8.8.8 | awk 'NR==1 {print $(NF-2)}')
@@ -206,19 +206,19 @@
 
 #### Server
 
-* Start the OpenVPN service.
+* Start the service.
 
   ```bash
   $ sudo systemctl start openvpn@server.service
   ```
 
-* Enable the OpenVPN service to start up at boot.
+* Enable the service to start up at boot.
 
   ```bash
   $ sudo systemctl -f enable openvpn@server.service
   ```
 
-* Verify the service is active.
+* Verify whether the service is active.
 
   ```bash
   $ sudo systemctl status openvpn@server.service
@@ -255,7 +255,7 @@
    comp-lzo
    ```
 
-3. Connect a Client to OpenVPN.
+3. Connect a client to **OpenVPN**.
 
    ```bash
    $ sudo openvpn --config ~/client/client.ovpn
