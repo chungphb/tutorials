@@ -259,4 +259,202 @@
         </tr>
     </tbody>
 </table>
+## Keyspace Operations
 
+### Create
+
+#### Syntax
+
+```cassandra
+CREATE KEYSPACE <identifier> WITH <properties>;
+
+// Detail:
+CREATE KEYSPACE 'keyspace name'
+WITH replication = {'class': 'strategy name', 'replication_factor': 'number of replicas'}
+AND durable_writes = 'boolean value';
+```
+
+* `replication`
+
+  * *Usage:* Specifies the Replica Placement Strategy and the number of replicas wanted.
+
+    <table>
+        <thead>
+            <tr>
+                <th>Strategy</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Simple Strategy</td>
+                <td>Specifies a simple replication factor for the cluster.</td>
+            </tr>
+            <tr>
+                <td>Network Topology Strategy</td>
+                <td>Sets the replication factor for each data-center independently..</td>
+            </tr>
+            <tr>
+                <td>Old Network Topology Strategy</td>
+                <td>A legacy replication strategy.</td>
+            </tr>
+        </tbody>
+    </table>
+
+  * *Example:*
+
+    ```cassandra
+    CREATE KEYSPACE sampleKeyspace
+    WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 3}
+    ```
+
+  * *Verification:*
+
+    ```cassandra
+    DESCRIBE KEYSPACES;
+    ```
+
+* `durable_writes`
+
+  * *Usage:* Allows you to instruct Cassandra whether to use commit log for updates on the current keyspace.
+
+  * *Example:*
+
+    ```cassandra
+    CREATE KEYSPACE sampleKeyspace
+    WITH replication = {'class': 'NetworkTopologyStrategy, 'data_center': 3}
+    AND durable_writes = false;
+    ```
+
+  * *Verification:*
+
+    ```cassandra
+    SELECT * FROM system_schema.keyspaces;
+    ```
+
+* Using a Keyspace
+
+  * *Syntax:*
+
+    ```cassandra
+    USE <identifier>;
+    ```
+
+  * *Example:*
+
+    ```cassandra
+    USE sampleKeyspace;
+    ```
+
+#### Java API
+
+Step 1. *Create a Cluster object*
+
+```java
+Cluster cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
+```
+
+Step 2. *Create a Session object*
+
+```java
+Session session = cluster.connect("Keyspace name");
+```
+
+Step 3. *Execute the query*
+
+```java
+String query = "CREATE KEYSPACE sampleKeyspace WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 3};";
+session.execute(query);
+```
+
+### Alter
+
+#### Syntax
+
+```cassandra
+ALTER KEYSPACE <identifier> WITH <properties>;
+
+// Detail:
+ALTER KEYSPACE 'keyspace name'
+WITH replication = {'class': 'strategy name', 'replication_factor': 'number of replicas'}
+AND durable_writes = 'boolean value';
+```
+
+#### Example
+
+```cassandra
+ALTER KEYSPACE sampleKeyspace
+WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 3};
+```
+
+#### Verification
+
+```cassandra
+DESCRIBE KEYSPACES;
+SELECT * FROM system_schema.keyspaces;
+```
+
+#### Java API
+
+Step 1. *Create a Cluster object*
+
+```java
+Cluster cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
+```
+
+Step 2. *Create a Session object*
+
+```java
+Session session = cluster.connect("Keyspace name");
+```
+
+Step 3. *Execute the query*
+
+```java
+String query = "ALTER KEYSPACE sampleKeyspace WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 3};";
+session.execute(query);
+```
+
+### Drop
+
+#### Syntax
+
+```cassandra
+DROP KEYSPACE <identifier>;
+
+// Detail:
+DROP KEYSPACE 'keyspace name';
+```
+
+#### Example
+
+```cassandra
+DROP KEYSPACE sampleKeyspace;
+```
+
+#### Verification
+
+```cassandra
+DESCRIBE KEYSPACES;
+```
+
+#### Java API
+
+Step 1. *Create a Cluster object*
+
+```java
+Cluster cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
+```
+
+Step 2. *Create a Session object*
+
+```java
+Session session = cluster.connect("Keyspace name");
+```
+
+Step 3. *Execute the query*
+
+```java
+String query = DROP KEYSPACE sampleKeyspace;";
+session.execute(query);
+```
