@@ -263,7 +263,7 @@
 
 ## Keyspace Operations
 
-### Create
+### Create Keyspace
 
 #### Syntax
 
@@ -369,7 +369,7 @@ String query = "CREATE KEYSPACE sampleKeyspace WITH replication = {'class': 'Sim
 session.execute(query);
 ```
 
-### Alter
+### Alter Keyspace
 
 #### Syntax
 
@@ -417,7 +417,7 @@ String query = "ALTER KEYSPACE sampleKeyspace WITH replication = {'class': 'Simp
 session.execute(query);
 ```
 
-### Drop
+### Drop Keyspace
 
 #### Syntax
 
@@ -463,14 +463,14 @@ session.execute(query);
 
 ## Table Operations
 
-### Create
+### Create Table
 
 #### Syntax
 
 ```cassandra
 CREATE (TABLE | COLUMNFAMILY) 'table name'
 ('column definition', 'column definition', ...)
-(WITH <option> AND <option>);
+(WITH 'option' AND 'option');
 
 // Column definition:
 'column name' 'data type',
@@ -534,7 +534,7 @@ String query = "CREATE TABLE sampleTable ("
 session.execute(query);
 ```
 
-### Alter
+### Alter Table
 
 #### Syntax
 
@@ -594,7 +594,7 @@ String query = "ALTER TABLE sampleTable DROP sampleMoreInfo;";
 session.execute(query);
 ```
 
-### Drop
+### Drop Table
 
 #### Syntax
 
@@ -635,7 +635,7 @@ String query = "DROP TABLE sampleTable;";
 session.execute(query);
 ```
 
-### Truncate
+### Truncate Table
 
 #### Syntax
 
@@ -798,9 +798,198 @@ Step 3. *Execute the query*
 
 ```java
 String query = "BEGIN BATCH"
-    + "INSERT INTO sampleTable(sampleID, sampleName, sampleInfo) VALUES (3, 'Chung Pham', 'Vietnam');"
+    + "INSERT INTO sampleTable(sampleID, sampleName, sampleInfo) VALUES (0, 'Chung Pham', 'Vietnam');"
     + "UPDATE sampleTable SET sampleName = 'Bernie Sanders' WHERE sampleID = 1;"
     + "DELETE sampleInfo FROM sampleTable WHERE sampleID = 2;"
     + "APPLY BATCH;";
 session.execute(query);
 ```
+
+## CRUD Operations
+
+### Create Data
+
+#### Syntax
+
+```cassandra
+INSERT INTO 'table name'
+('column name', 'column name', ...)
+VALUES ('value', 'value', ...)
+USING 'option'
+```
+
+#### Example
+
+```cassandra
+INSERT INTO sampleTable(sampleID, sampleName, sampleInfo)
+VALUES (0, 'Chung Pham', 'Vietnam');
+```
+
+#### Verification
+
+```cassandra
+SELECT * FROM sampleTable;
+```
+
+#### Java API
+
+Step 1. *Create a Cluster object*
+
+```java
+Cluster cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
+```
+
+Step 2. *Create a Session object*
+
+```java
+Session session = cluster.connect("sampleKeyspace");
+```
+
+Step 3. *Execute the query*
+
+```java
+String query = "INSERT INTO sampleTable(sampleID, sampleName, sampleInfo) VALUES (0, 'Chung Pham', 'Vietnam');";
+session.execute(query);
+```
+
+### Update Data
+
+#### Syntax
+
+```cassandra
+UPDATE 'table name'
+SET
+'column name' = 'new value',
+'column name' = 'new value',
+...
+WHERE 'condition';
+```
+
+#### Example
+
+```cassandra
+UPDATE sampleTable
+SET sampleName = 'Bernie Sanders'
+WHERE sampleID = 1;
+```
+
+#### Verification
+
+```cassandra
+SELECT * FROM sampleTable;
+```
+
+#### Java API
+
+Step 1. *Create a Cluster object*
+
+```java
+Cluster cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
+```
+
+Step 2. *Create a Session object*
+
+```java
+Session session = cluster.connect("sampleKeyspace");
+```
+
+Step 3. *Execute the query*
+
+```java
+String query = "UPDATE sampleTable SET sampleName = 'Bernie Sanders' WHERE sampleID = 1;";
+session.execute(query);
+```
+
+### Read Data
+
+#### Syntax
+
+```cassandra
+SELECT 'column name', 'column name', ...
+FROM 'table name'
+WHERE 'condition';
+
+// Selecting the entire row:
+SELECT *
+FROM 'table name'
+WHERE 'condition';
+```
+
+#### Example
+
+```cassandra
+SELECT *
+FROM sampleTable
+WHERE sampleID = 0;
+```
+
+#### Java API
+
+Step 1. *Create a Cluster object*
+
+```java
+Cluster cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
+```
+
+Step 2. *Create a Session object*
+
+```java
+Session session = cluster.connect("sampleKeyspace");
+```
+
+Step 3. *Execute the query*
+
+```java
+String query = "SELECT * FROM sampleTable WHERE sampleID = 0;";
+session.execute(query);
+```
+
+### Delete Data
+
+#### Syntax
+
+```cassandra
+DELETE 'column name', 'column name', ...
+FROM 'table name'
+WHERE 'condition';
+
+// Deleting the entire row:
+DELETE FROM 'table name'
+WHERE 'condition';
+```
+
+#### Example
+
+```cassandra
+DELETE sampleInfo
+FROM sampleTable
+WHERE sampleID = 2;
+```
+
+#### Verification
+
+```cassandra
+SELECT * FROM sampleTable;
+```
+
+#### Java API
+
+Step 1. *Create a Cluster object*
+
+```java
+Cluster cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
+```
+
+Step 2. *Create a Session object*
+
+```java
+Session session = cluster.connect("sampleKeyspace");
+```
+
+Step 3. *Execute the query*
+
+```java
+String query = "DELETE sampleInfo FROM sampleTable WHERE sampleID = 2;";
+session.execute(query);
+```
+
