@@ -243,7 +243,7 @@
         </tr>
         <tr>
             <td>Tables are the entities of a database.</td>
-            <td>Keyspace is the outermost container.</td>
+            <td>Tables or column families are the entity of a keyspace.</td>
         </tr>
         <tr>
             <td>Row is an individual record.</td>
@@ -259,6 +259,8 @@
         </tr>
     </tbody>
 </table>
+
+
 ## Keyspace Operations
 
 ### Create
@@ -357,7 +359,7 @@ Cluster cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
 Step 2. *Create a Session object*
 
 ```java
-Session session = cluster.connect("Keyspace name");
+Session session = cluster.connect("sampleKeyspace");
 ```
 
 Step 3. *Execute the query*
@@ -405,7 +407,7 @@ Cluster cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
 Step 2. *Create a Session object*
 
 ```java
-Session session = cluster.connect("Keyspace name");
+Session session = cluster.connect("sampleKeyspace");
 ```
 
 Step 3. *Execute the query*
@@ -449,12 +451,356 @@ Cluster cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
 Step 2. *Create a Session object*
 
 ```java
-Session session = cluster.connect("Keyspace name");
+Session session = cluster.connect("sampleKeyspace");
 ```
 
 Step 3. *Execute the query*
 
 ```java
 String query = DROP KEYSPACE sampleKeyspace;";
+session.execute(query);
+```
+
+## Table Operations
+
+### Create
+
+#### Syntax
+
+```cassandra
+CREATE (TABLE | COLUMNFAMILY) 'table name'
+('column definition', 'column definition', ...)
+(WITH <option> AND <option>);
+
+// Column definition:
+'column name' 'data type',
+'column name' 'data type',
+...
+
+// Primary key:
+CREATE TABLE 'table name' (
+    'column definition' PRIMARY KEY,
+    'column definition',
+    ...
+);
+
+CREATE TABLE 'table name' (
+    'column definition',
+    'column definition',
+    ...,
+    PRIMARY KEY ('column name', ...)
+);
+```
+
+#### Example
+
+```cassandra
+USE sampleKeyspace;
+CREATE TABLE sampleTable (
+    sampleID int PRIMARY KEY,
+    sampleName text,
+    sampleInfo text
+);
+```
+
+#### Verification
+
+```cassandra
+SELECT * FROM sampleTable;
+```
+
+#### Java API
+
+Step 1. *Create a Cluster object*
+
+```java
+Cluster cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
+```
+
+Step 2. *Create a Session object*
+
+```java
+Session session = cluster.connect("sampleKeyspace");
+```
+
+Step 3. *Execute the query*
+
+```java
+String query = "CREATE TABLE sampleTable ("
+    + "sampleID int PRIMARY KEY,"
+    + "sampleName text,"
+    + "sampleInfo text"
+    + ");";
+session.execute(query);
+```
+
+### Alter
+
+#### Syntax
+
+```cassandra
+ALTER (TABLE | COLUMNFAMILY) 'table name' 'instruction';
+
+// Adding a column:
+ALTER TABLE 'table name'
+ADD 'new column' 'data type';
+
+// Dropping a column:
+ALTER TABLE 'table name'
+DROP 'column name';
+```
+
+#### Example
+
+```cassandra
+// Adding a column:
+ALTER TABLE sampleTable
+ADD sampleMoreInfo text;
+
+// Dropping a column:
+ALTER TABLE sampleTable
+DROP sampleMoreInfo;
+```
+
+#### Verification
+
+```cassandra
+SELECT * FROM sampleTable;
+```
+
+#### Java API
+
+Step 1. *Create a Cluster object*
+
+```java
+Cluster cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
+```
+
+Step 2. *Create a Session object*
+
+```java
+Session session = cluster.connect("sampleKeyspace");
+```
+
+Step 3. *Execute the query*
+
+```java
+// Adding a column:
+String query = "ALTER TABLE sampleTable ADD sampleMoreInfo text;";
+
+// Dropping a column:
+String query = "ALTER TABLE sampleTable DROP sampleMoreInfo;";
+
+session.execute(query);
+```
+
+### Drop
+
+#### Syntax
+
+```cassandra
+DROP (TABLE | COLUMNFAMILY) 'table name';
+```
+
+#### Example
+
+```cassandra
+DROP TABLE sampleTable;
+```
+
+#### Verification
+
+```cassandra
+DESCRIBE (TABLES | COLUMNFAMILIES);
+```
+
+#### Java API
+
+Step 1. *Create a Cluster object*
+
+```java
+Cluster cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
+```
+
+Step 2. *Create a Session object*
+
+```java
+Session session = cluster.connect("sampleKeyspace");
+```
+
+Step 3. *Execute the query*
+
+```java
+String query = "DROP TABLE sampleTable;";
+session.execute(query);
+```
+
+### Truncate
+
+#### Syntax
+
+```cassandra
+TRUNCATE [TABLE] 'table name';
+```
+
+#### Example
+
+```cassandra
+TRUNCATE sampleTable;
+```
+
+#### Verification
+
+```cassandra
+SELECT * FROM sampleTable;
+```
+
+#### Java API
+
+Step 1. *Create a Cluster object*
+
+```java
+Cluster cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
+```
+
+Step 2. *Create a Session object*
+
+```java
+Session session = cluster.connect("sampleKeyspace");
+```
+
+Step 3. *Execute the query*
+
+```java
+String query = "TRUNCATE sampleTable;";
+session.execute(query);
+```
+
+### Create Index
+
+#### Syntax
+
+```cassandra
+CREATE INDEX 'index name' ON 'table name';
+```
+
+#### Example
+
+```cassandra
+CREATE INDEX sampleIndex ON sampleTable(sampleName);
+```
+
+#### Verification
+
+```cassandra
+DESCRIBE TABLE sampleTable;
+```
+
+#### Java API
+
+Step 1. *Create a Cluster object*
+
+```java
+Cluster cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
+```
+
+Step 2. *Create a Session object*
+
+```java
+Session session = cluster.connect("sampleKeyspace");
+```
+
+Step 3. *Execute the query*
+
+```java
+String query = "CREATE INDEX sampleIndex ON sampleTable(sampleName);";
+session.execute(query);
+```
+
+### Drop Index
+
+#### Syntax
+
+```cassandra
+DROP INDEX [IF EXISTS] 'index name';
+```
+
+#### Example
+
+```cassandra
+DROP INDEX IF EXISTS sampleIndex;
+```
+
+#### Verification
+
+```cassandra
+DESCRIBE TABLE sampleTable;
+```
+
+#### Java API
+
+Step 1. *Create a Cluster object*
+
+```java
+Cluster cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
+```
+
+Step 2. *Create a Session object*
+
+```java
+Session session = cluster.connect("sampleKeyspace");
+```
+
+Step 3. *Execute the query*
+
+```java
+String query = "DROP INDEX IF EXISTS sampleIndex;";
+session.execute(query);
+```
+
+### Batch Statements
+
+#### Syntax
+
+```cassandra
+BEGIN BATCH
+'<Insert statement>', or
+'<Update statement>', or
+'<Delete statement>'
+APPLY BATCH;
+```
+
+#### Example
+
+```cassandra
+BEGIN BATCH
+INSERT INTO sampleTable(sampleID, sampleName, sampleInfo) VALUES (3, 'Chung Pham', 'Vietnam');
+UPDATE sampleTable SET sampleName = 'Bernie Sanders' WHERE sampleID = 1;
+DELETE sampleInfo FROM sampleTable WHERE sampleID = 2;
+APPLY BATCH;
+```
+
+#### Java API
+
+Step 1. *Create a Cluster object*
+
+```java
+Cluster cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
+```
+
+Step 2. *Create a Session object*
+
+```java
+Session session = cluster.connect("sampleKeyspace");
+```
+
+Step 3. *Execute the query*
+
+```java
+String query = "BEGIN BATCH"
+    + "INSERT INTO sampleTable(sampleID, sampleName, sampleInfo) VALUES (3, 'Chung Pham', 'Vietnam');"
+    + "UPDATE sampleTable SET sampleName = 'Bernie Sanders' WHERE sampleID = 1;"
+    + "DELETE sampleInfo FROM sampleTable WHERE sampleID = 2;"
+    + "APPLY BATCH;";
 session.execute(query);
 ```
