@@ -993,3 +993,218 @@ String query = "DELETE sampleInfo FROM sampleTable WHERE sampleID = 2;";
 session.execute(query);
 ```
 
+## CQL Types
+
+### Datatypes
+
+#### Built-in Types
+
+<table>
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>ascii</td>
+            <td>ASCII character string</td>
+        </tr>
+        <tr>
+            <td>bigint</td>
+            <td>64-bit signed long</td>
+        </tr>
+        <tr>
+            <td>blob</td>
+            <td>Arbitrary bytes</td>
+        </tr>
+        <tr>
+            <td>boolean</td>
+            <td>true or false</td>
+        </tr>
+        <tr>
+            <td>counter</td>
+            <td>Counter column</td>
+        </tr>
+        <tr>
+            <td>decimal</td>
+            <td>Variable-precision decimal</td>
+        </tr>
+        <tr>
+            <td>double</td>
+            <td>64-bit IEEE-754 floating point</td>
+        </tr>
+        <tr>
+            <td>float</td>
+            <td>32-bit IEEE-754 floating point</td>
+        </tr>
+        <tr>
+            <td>inet</td>
+            <td>An IP address, IPv4 or IPv6</td>
+        </tr>
+        <tr>
+            <td>int</td>
+            <td>32-bit signed int</td>
+        </tr>
+        <tr>
+            <td>text</td>
+            <td>UTF8 encoded string</td>
+        </tr>
+        <tr>
+            <td>timestamp</td>
+            <td>A timestamp</td>
+        </tr>
+        <tr>
+            <td>timeuuid</td>
+            <td>Type 1 UUID</td>
+        </tr>
+        <tr>
+            <td>uuid</td>
+            <td>Type 1 or type 4 UUID</td>
+        </tr>
+        <tr>
+            <td>varchar</td>
+            <td>UTF8 encoded string</td>
+        </tr>
+        <tr>
+            <td>varint</td>
+            <td>Arbitrary-precision integer</td>
+        </tr>
+    </tbody>
+</table>
+
+#### Collection Types
+
+<table>
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>list</td>
+            <td>A collection of ordered elements</td>
+        </tr>
+        <tr>
+            <td>set</td>
+            <td>A collection of unique elements</td>
+        </tr>
+        <tr>
+            <td>map</td>
+            <td>A collection of key-value pairs</td>
+        </tr>
+    </tbody>
+</table>
+
+#### User-defined Datatypes
+
+<table>
+    <thead>
+        <tr>
+            <th>Command</th>
+            <th>Usage</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>CREATE TYPE</td>
+            <td>Creates a user-defined datatype</td>
+        </tr>
+        <tr>
+            <td>ALTER TYPE</td>
+            <td>Modifies a user-defined datatype</td>
+        </tr>
+        <tr>
+            <td>DROP TYPE</td>
+            <td>Drops a user-defined datatype</td>
+        </tr>
+        <tr>
+            <td>DESCRIBE TYPE</td>
+            <td>Describes a user-defined datatype</td>
+        </tr>
+        <tr>
+            <td>DESCRIBE TYPES</td>
+            <td>Describes user-defined datatypes</td>
+        </tr>
+    </tbody>
+</table>
+
+### Collections
+
+#### List
+
+* *Usage:*
+
+  * The order of the elements needs to be maintained, and
+  * A value could be stored multiple times.
+
+* *Example:*
+
+  ```cassandra
+  // Creating a table with list:
+  CREATE TABLE sampleTable(sampleID int PRIMARY KEY, sampleList list<text>);
+  
+  // Inserting data into a list:
+  INSERT INTO sampleTable(sampleID, sampleList)
+  VALUES (0, ['phamhuubaochung@gmail.com','chungphamhuubao@gmail.com']);
+  
+  // Updating a list:
+  UPDATE sampleTable
+  SET sampleList = sampleList + ['chungphb1996@gmail.com'];
+  WHERE sampleID = 0;
+  
+  // Verification:
+  SELECT * FROM sampleTable;
+  ```
+
+#### Set
+
+* *Usage:* To store a group of elements.
+
+* *Example:*
+
+  ```cassandra
+  // Creating a table with set:
+  CREATE TABLE sampleTable(sampleID int PRIMARY KEY, sampleSet set<int>);
+  
+  // Inserting data into a set:
+  INSERT INTO sampleTable(sampleID, sampleSet)
+  VALUES (0, {4, 12, 13, 25, 40});
+  
+  // Updating a set:
+  UPDATE sampleTable
+  SET sampleSet = sampleSet + {100};
+  WHERE sampleID = 0;
+  
+  // Verification:
+  SELECT * FROM sampleTable;
+  ```
+
+#### Map
+
+* *Usage:* To store a group of key-value pairs.
+
+* *Example:*
+
+  ```cassandra
+  // Creating a table with map:
+  CREATE TABLE sampleTable(sampleID int PRIMARY KEY, sampleMap map<text, text>);
+  
+  // Inserting data into a map:
+  INSERT INTO sampleTable(sampleID, sampleMap)
+  VALUES (0, {'name': 'Chung', 'phone': '+84866719416'});
+  
+  // Updating a map:
+  UPDATE sampleTable
+  SET sampleMap = sampleMap + {'hometown': 'Ky Son'};
+  WHERE sampleID = 0;
+  
+  // Verification:
+  SELECT * FROM sampleTable;
+  ```
+
+  
+
