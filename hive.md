@@ -277,56 +277,634 @@
 
 * Arrays
 
-  * *Syntax:*
+  * *Syntax:* `ARRAY<data_type>`
 
-    ```hive
-    ARRAY<data_type>
-    ```
-
-  * *Example:*
-
-    ```hive
-    ARRAY<STRING>
-    ```
-
+  * *Example:* `ARRAY<STRING>`
+  
 * Maps
 
-  * *Syntax:*
+  * *Syntax:* `MAP<primitive_type, data_type>`
 
-    ```hive
-    MAP<primitive_type, data_type>
-    ```
-
-  * *Example:*
-
-    ```hive
-    ARRAY<INT, STRING>
-    ```
-
+  * *Example:* `MAP<INT, STRING>`
+  
 * Structs
 
-  * *Syntax:*
+  * *Syntax:* `STRUCT<col_name : data_type [COMMENT col_comment], ...>`
 
-    ```hive
-    STRUCT<col_name : data_type [COMMENT col_comment], ...>
-    ```
-
-  * *Example:*
-
-    ```hive
-    STRUCT<col1 : INT COMMENT 'Column 1', col2 : STRING COMMENT 'Column 2'>
-    ```
-
+  * *Example:* `STRUCT<col1 : INT COMMENT 'Column 1', col2 : STRING COMMENT 'Column 2'>`
+  
 * Unions
 
-  * *Syntax:*
+  * *Syntax:* `UNIONTYPE<data_type, data_type, ...>`
 
-    ```hive
-    UNIONTYPE<data_type, data_type, ...>
-    ```
+  * *Example:* `UNIONTYPE<INT, STRING>`
 
-  * *Example:*
+## Database Operations
 
-    ```hive
-    UNIONTYPE<INT, STRING>
-    ```
+### Create Database
+
+#### Syntax
+
+```hive
+CREATE [REMOTE] (DATABASE|SCHEMA) [IF NOT EXISTS] database_name
+[COMMENT database_comment]
+[LOCATION hdfs_path]
+[MANAGEDLOCATION hdfs_path]
+[WITH DBPROPERTIES (property_name=property_value, ...)];
+```
+
+#### Example
+
+```hive
+CREATE DATABASE IF NOT EXISTS sampleDatabase;
+```
+
+#### Verification
+
+```hive
+SHOW DATABASES;
+```
+
+#### JDBC program
+
+Step 1. *Register driver and create driver instance*
+
+```java
+String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver"
+Class.forName(driverName);
+```
+
+Step 2. *Get connection*
+
+```java
+Connection connection = DriverManager.getConnection("jdbc:hive://localhost:10000/default", "", "");
+```
+
+Step 3. *Create and execute statement*
+
+```java
+Statement statement = connection.createStatement();
+statement.executeQuery("CREATE DATABASE IF NOT EXISTS sampleDatabase;");
+```
+
+#### Use Database
+
+```hive
+USE database_name;
+```
+
+### Alter Database
+
+#### Syntax
+
+```hive
+// Altering the properties of the database:
+ALTER (DATABASE|SCHEMA) database_name SET DBPROPERTIES (property_name = property_value, ...);
+
+// Altering the owner of the database:
+ALTER (DATABASE|SCHEMA) database_name SET OWNER [USER|ROLE] user_or_role;
+
+// Altering the location of the database:
+ALTER (DATABASE|SCHEMA) database_name SET LOCATION hdfs_path;
+
+// Altering the managed location of the database:
+ALTER (DATABASE|SCHEMA) database_name SET MANAGEDLOCATION hdfs_path;
+```
+
+#### Example
+
+```hive
+// Altering the properties of the database:
+ALTER DATABASE sampleDatabase SET DBPROPERTIES ('edited-by' = 'ChungPHB');
+
+// Altering the owner of the database:
+ALTER DATABASE sampleDatabase SET OWNER chungphb;
+
+// Altering the location of the database:
+ALTER DATABASE sampleDatabase SET LOCATION '/path/to/location';
+
+// Altering the managed location of the database:
+ALTER DATABASE sampleDatabase SET MANAGEDLOCATION '/path/to/managed/location';
+```
+
+#### Verification
+
+```hive
+DESCRIBE DATABASE EXTENDED sampleDatabase;
+```
+
+#### JDBC program
+
+Step 1. *Register driver and create driver instance*
+
+```java
+String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver"
+Class.forName(driverName);
+```
+
+Step 2. *Get connection*
+
+```java
+Connection connection = DriverManager.getConnection("jdbc:hive://localhost:10000/default", "", "");
+```
+
+Step 3. *Create and execute statement*
+
+```java
+Statement statement = connection.createStatement();
+
+// Altering the properties of the database:
+statement.executeQuery("ALTER DATABASE sampleDatabase SET DBPROPERTIES ('edited-by' = 'ChungPHB');");
+
+// Altering the owner of the database:
+statement.executeQuery("ALTER DATABASE sampleDatabase SET OWNER chungphb;");
+
+// Altering the location of the database:
+statement.executeQuery("ALTER DATABASE sampleDatabase SET LOCATION '/path/to/location';");
+
+// Altering the managed location of the database:
+statement.executeQuery("ALTER DATABASE sampleDatabase SET MANAGEDLOCATION '/path/to/managed/location';");
+```
+
+### Drop Database
+
+#### Syntax
+
+```hive
+DROP (DATABASE|SCHEMA) [IF EXISTS] database_name [RESTRICT|CASCADE];
+```
+
+#### Example
+
+```hive
+DROP DATABASE IF EXISTS sampleDatabase CASCADE;
+```
+
+#### Verification
+
+```hive
+SHOW DATABASES;
+```
+
+#### JDBC program
+
+Step 1. *Register driver and create driver instance*
+
+```java
+String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver"
+Class.forName(driverName);
+```
+
+Step 2. *Get connection*
+
+```java
+Connection connection = DriverManager.getConnection("jdbc:hive://localhost:10000/default", "", "");
+```
+
+Step 3. *Create and execute statement*
+
+```java
+Statement statement = connection.createStatement();
+statement.executeQuery("DROP DATABASE IF EXISTS sampleDatabase CASCADE;");
+```
+
+## Table Operations
+
+### Create Table
+
+#### Syntax
+
+```hive
+CREATE [TEMPORARY] [EXTERNAL] TABLE [IF NOT EXISTS] [db_name.]table_name
+[(col_name data_type [column_constraint_specification] [COMMENT col_comment], ... [constraint_specification])]
+[COMMENT table_comment]
+[PARTITIONED BY (col_name data_type [COMMENT col_comment], ...)]
+[CLUSTERED BY (col_name, col_name, ...) [SORTED BY (col_name [ASC|DESC], ...)] INTO num_buckets BUCKETS]
+[SKEWED BY (col_name, col_name, ...) ON ((col_value, col_value, ...), (col_value, col_value, ...), ...) [STORED AS DIRECTORIES]]
+[
+	[ROW FORMAT row_format]
+	[STORED AS file_format] | STORED BY 'storage.handler.class.name' [WITH SERDEPROPERTIES (...)]
+]
+[LOCATION hdfs_path]
+[TBLPROPERTIES (property_name=property_value, ...)]
+[AS select_statement];
+```
+
+#### Example
+
+```hive
+CREATE TABLE IF NOT EXISTS sampleTable
+(sampleID INT, sampleName STRING, sampleInfo STRING)
+COMMENT 'Sample table'
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE;
+```
+
+#### Verification
+
+```hive
+SHOW TABLES;
+```
+
+#### JDBC program
+
+Step 1. *Register driver and create driver instance*
+
+```java
+String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver"
+Class.forName(driverName);
+```
+
+Step 2. *Get connection*
+
+```java
+Connection connection = DriverManager.getConnection("jdbc:hive://localhost:10000/default", "", "");
+```
+
+Step 3. *Create and execute statement*
+
+```java
+Statement statement = connection.createStatement();
+statement.executeQuery("CREATE TABLE IF NOT EXISTS sampleTable"
++ "(sampleID INT, sampleName STRING, sampleInfo STRING)"
++ "COMMENT 'Sample table'"
++ "ROW FORMAT DELIMITED"
++ "FIELDS TERMINATED BY '\t'"
++ "LINES TERMINATED BY '\n'"
++ "STORED AS TEXTFILE;");
+```
+
+### Alter Table
+
+#### Syntax
+
+```hive
+// Renaming a table:
+ALTER TABLE name RENAME TO new_name;
+
+// Adding new columns to a table:
+ALTER TABLE name ADD COLUMNS (col_spec[, col_spec ...]);
+
+// Dropping a column from a table: 
+ALTER TABLE name DROP [COLUMN] column_name;
+
+// Updating a column of a table:
+ALTER TABLE name CHANGE column_name new_name new_type;
+
+// Replacing columns of a table:
+ALTER TABLE name REPLACE COLUMNS (col_spec[, col_spec ...]);
+```
+
+#### Example
+
+```hive
+// Renaming a table:
+ALTER TABLE sampleTable RENAME TO newSampleTable;
+
+// Adding new columns to a table:
+ALTER TABLE sampleTable ADD COLUMNS (sampleMoreInfo STRING COMMENT 'More info');
+
+// Dropping a column from a table: 
+ALTER TABLE sampleTable DROP sampleMoreInfo;
+
+// Updating a column of a table:
+ALTER TABLE sampleTable CHANGE sampleInfo newSampleInfo STRING;
+
+// Replacing columns of a table:
+ALTER TABLE sampleTable REPLACE COLUMNS (newSampleID INT, newSampleName STRING, newSampleInfo STRING);
+```
+
+#### Verification
+
+```hive
+SELECT * FROM sampleTable;
+```
+
+#### JDBC program
+
+Step 1. *Register driver and create driver instance*
+
+```java
+String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver"
+Class.forName(driverName);
+```
+
+Step 2. *Get connection*
+
+```java
+Connection connection = DriverManager.getConnection("jdbc:hive://localhost:10000/default", "", "");
+```
+
+Step 3. *Create and execute statement*
+
+```java
+Statement statement = connection.createStatement();
+
+// Renaming a table:
+statement.executeQuery("ALTER TABLE sampleTable RENAME TO newSampleTable;");
+
+// Adding new columns to a table:
+statement.executeQuery("ALTER TABLE sampleTable ADD COLUMNS (sampleMoreInfo STRING COMMENT 'More info');");
+
+// Dropping a column from a table: 
+statement.executeQuery("ALTER TABLE sampleTable DROP sampleMoreInfo;");
+
+// Updating a column of a table:
+statement.executeQuery("ALTER TABLE sampleTable CHANGE sampleInfo newSampleInfo STRING;");
+
+// Replacing columns of a table:
+statement.executeQuery("ALTER TABLE sampleTable REPLACE COLUMNS (newSampleID INT, newSampleName STRING, newSampleInfo STRING);");
+```
+
+### Drop Table
+
+#### Syntax
+
+```hive
+DROP TABLE [IF EXISTS] table_name;
+```
+
+#### Example
+
+```hive
+DROP TABLE IF EXISTS sampleTable;
+```
+
+#### Verification
+
+```hive
+SHOW TABLES;
+```
+
+#### JDBC program
+
+Step 1. *Register driver and create driver instance*
+
+```java
+String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver"
+Class.forName(driverName);
+```
+
+Step 2. *Get connection*
+
+```java
+Connection connection = DriverManager.getConnection("jdbc:hive://localhost:10000/default", "", "");
+```
+
+Step 3. *Create and execute statement*
+
+```java
+Statement statement = connection.createStatement();
+statement.executeQuery("DROP TABLE IF EXISTS sampleTable;");
+```
+
+## Partitioning
+
+Hive organizes tables into ***partitions***.
+
+* A way of dividing a table into related parts based on the values of partitioned columns.
+* Easier to query a portion of the data using partitions.
+
+Tables or partitions are subdivided into ***buckets***.
+
+* Provides extra structure to the data that may be used for more efficient querying.
+* Based on the value of the hash function of some column of the table.
+
+### Add Partition
+
+#### Syntax
+
+```hive
+ALTER TABLE table_name
+ADD [IF NOT EXISTS] PARTITION partition_spec [LOCATION 'location'][, PARTITION partition_spec [LOCATION 'location'], ...];
+
+partition_spec
+	: (partition_column = partition_col_value, partition_column = partition_col_value, ...)
+```
+
+#### Example
+
+```hive
+ALTER TABLE sampleTable
+ADD
+PARTITION (sampleInfo = 'sampleValue1') LOCATION '/path/to/partition1',
+PARTITION (sampleInfo = 'sampleValue2') LOCATION '/path/to/partition2';
+```
+
+#### Verification
+
+```hive
+SHOW PARTITIONS sampleTable;
+```
+
+### Alter Partition
+
+#### Syntax
+
+```hive
+// Renaming a partititon:
+ALTER TABLE table_name PARTITION partition_spec
+RENAME TO PARTITION partition_spec;
+
+// Altering table/partition file format:
+ALTER TABLE table_name [PARTITION partition_spec]
+SET FILEFORMAT file_format;
+
+// Altering table/partition location:
+ALTER TABLE table_name [PARTITION partition_spec]
+SET LOCATION 'new location';
+```
+
+#### Example
+
+```hive
+// Renaming a partititon:
+ALTER TABLE sampleTable PARTITION (sampleInfo = 'sampleValue1')
+RENAME TO PARTITION (sampleName = 'sampleValue1');
+
+// Altering table/partition file format:
+ALTER TABLE sampleTable PARTITION (sampleInfo = 'sampleValue1')
+SET FILEFORMAT ORC;
+
+// Altering table/partition location:
+ALTER TABLE sampleTable PARTITION (sampleInfo = 'sampleValue1')
+SET LOCATION '/new/path/to/partition1';
+```
+
+#### Verification
+
+```hive
+SHOW PARTITIONS sampleTable PARTITION (sampleInfo = 'sampleValue1');
+```
+
+### Drop Partition
+
+#### Syntax
+
+```hive
+ALTER TABLE table_name
+DROP [IF EXISTS] PARTITION partition_spec[, PARTITION partition_spec, ...];
+```
+
+#### Example
+
+```hive
+ALTER TABLE sampleTable
+DROP IF EXISTS PARTITION (sampleInfo = 'sampleValue1');
+```
+
+#### Verification
+
+```hive
+SHOW PARTITIONS sampleTable;
+```
+
+##  View Operations
+
+### Create View
+
+#### Syntax
+
+```hive
+CREATE VIEW [IF NOT EXISTS] [db_name.]view_name [(column_name [COMMENT column_comment], ...)]
+[COMMENT view_comment]
+[TBLPROPERTIES (property_name = property_value, ...)]
+AS SELECT ...;
+```
+
+#### Example
+
+```hive
+CREATE VIEW sampleView
+AS
+SELECT *
+FROM sampleTable
+WHERE sampleID = 0;
+```
+
+#### Verification
+
+```hive
+SHOW TABLES;
+```
+
+### Alter View
+
+```hive
+// Altering properties:
+ALTER VIEW [db_name.]view_name SET TBLPROPERTIES table_properties;
+
+// Altering as SELECT:
+ALTER VIEW [db_name.]view_name AS select_statement;
+```
+
+#### Example
+
+```hive
+ALTER VIEW sampleView AS SELECT * FROM sampleTable WHERE sampleID = 1;
+```
+
+#### Verification
+
+```hive
+SHOW TABLES;
+```
+
+### Drop View
+
+#### Syntax
+
+```hive
+DROP VIEW [IF EXISTS] [db_name.]view_name;
+```
+
+#### Example
+
+```hive
+DROP VIEW IF EXISTS sampleView;
+```
+
+#### Verification
+
+```hive
+SHOW TABLES;
+```
+
+## Index Operations
+
+### Create Index
+
+#### Syntax
+
+```hive
+CREATE INDEX index_name
+ON TABLE base_table_name (col_name, ...)
+AS index_type
+[WITH DEFERRED REBUILD]
+[IDXPROPERTIES (property_name=property_value, ...)]
+[IN TABLE index_table_name]
+[
+    [ ROW FORMAT ...] STORED AS ...
+    | STORED BY ...
+]
+[LOCATION hdfs_path]
+[TBLPROPERTIES (...)]
+[COMMENT "index comment"];
+```
+
+#### Example
+
+```hive
+CREATE INDEX sampleIndex
+ON TABLE sampleTable(sampleName)
+AS 'org.apache.hadoop.hive.ql.index.compact.CompactIndexHandler';
+```
+
+#### Verification
+
+```hive
+SHOW INDEX ON sampleTable;
+```
+
+### Alter Index
+
+#### Syntax
+
+```hive
+ALTER INDEX index_name ON table_name [PARTITION partition_spec] REBUILD;
+```
+
+#### Example
+
+```hive
+ALTER INDEX sampleIndex ON sampleTable PARTITION (sampleName = 'Chung', sampleInfo = 'Ky Son') REBUILD;
+```
+
+#### Verification
+
+```hive
+SHOW FORMATTED INDEX ON sampleTable;
+```
+
+### Drop Index
+
+#### Syntax
+
+```hive
+DROP INDEX [IF EXISTS] index_name ON table_name;
+```
+
+#### Example
+
+```hive
+DROP INDEX IF EXISTS sampleIndex ON sampleTable;
+```
+
+#### Verification
+
+```hive
+SHOW INDEX ON sampleTable;
+```
+
