@@ -330,7 +330,7 @@ SHOW DATABASES;
 Step 1. *Register driver and create driver instance*
 
 ```java
-String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver"
+String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver";
 Class.forName(driverName);
 ```
 
@@ -398,7 +398,7 @@ DESCRIBE DATABASE EXTENDED sampleDatabase;
 Step 1. *Register driver and create driver instance*
 
 ```java
-String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver"
+String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver";
 Class.forName(driverName);
 ```
 
@@ -451,7 +451,7 @@ SHOW DATABASES;
 Step 1. *Register driver and create driver instance*
 
 ```java
-String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver"
+String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver";
 Class.forName(driverName);
 ```
 
@@ -513,7 +513,7 @@ SHOW TABLES;
 Step 1. *Register driver and create driver instance*
 
 ```java
-String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver"
+String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver";
 Class.forName(driverName);
 ```
 
@@ -587,7 +587,7 @@ SELECT * FROM sampleTable;
 Step 1. *Register driver and create driver instance*
 
 ```java
-String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver"
+String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver";
 Class.forName(driverName);
 ```
 
@@ -643,7 +643,7 @@ SHOW TABLES;
 Step 1. *Register driver and create driver instance*
 
 ```java
-String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver"
+String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver";
 Class.forName(driverName);
 ```
 
@@ -908,3 +908,183 @@ DROP INDEX IF EXISTS sampleIndex ON sampleTable;
 SHOW INDEX ON sampleTable;
 ```
 
+## CRUD Operations
+
+### Create Data
+
+#### Syntax
+
+```hive
+INSERT INTO TABLE table_name [PARTITION (column[ = value], column[ = value] ...)] VALUES values_row[, values_row ...];
+
+values_row
+	: (value[, value ...] )
+```
+
+#### Example
+
+```hive
+INSERT INTO TABLE sampleTable VALUES (0, 'ChungPHB', 'Ky Son'), (1, 'ThuyPLT', 'Ky Son');
+```
+
+#### Verification
+
+```hive
+SELECT * FROM sampleTable;
+```
+
+#### JDBC program
+
+Step 1. *Register driver and create driver instance*
+
+```java
+String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver";
+Class.forName(driverName);
+```
+
+Step 2. *Get connection*
+
+```java
+Connection connection = DriverManager.getConnection("jdbc:hive://localhost:10000/default", "", "");
+```
+
+Step 3. *Create and execute statement*
+
+```java
+Statement statement = connection.createStatement();
+statement.executeQuery("INSERT INTO TABLE sampleTable VALUES (0, 'ChungPHB', 'Ky Son'), (1, 'ThuyPLT', 'Ky Son');");
+```
+
+### Update Data
+
+#### Syntax
+
+```hive
+UPDATE tablename SET column = value[, column = value ...] [WHERE expression];
+```
+
+#### Example
+
+```hive
+UPDATE sampleTable SET sampleInfo = 'Me Tri' WHERE sampleID = 0;
+```
+
+#### Verification
+
+```hive
+SELECT * FROM sampleTable;
+```
+
+#### JDBC program
+
+Step 1. *Register driver and create driver instance*
+
+```java
+String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver";
+Class.forName(driverName);
+```
+
+Step 2. *Get connection*
+
+```java
+Connection connection = DriverManager.getConnection("jdbc:hive://localhost:10000/default", "", "");
+```
+
+Step 3. *Create and execute statement*
+
+```java
+Statement statement = connection.createStatement();
+statement.executeQuery("UPDATE sampleTable SET sampleInfo = 'Me Tri' WHERE sampleID = 0;");
+```
+
+### Read Data
+
+#### Syntax
+
+```hive
+SELECT [ALL | DISTINCT] select_expr, select_expr, ...
+FROM table_reference
+[WHERE where_condition]
+[GROUP BY col_list]
+[ORDER BY col_list]
+[CLUSTER BY col_list
+	| [DISTRIBUTE BY col_list] [SORT BY col_list]
+]
+[LIMIT [offset,] rows]
+```
+
+#### Example
+
+```hive
+SELECT sampleID, sampleName
+FROM sampleTable
+WHERE sampleInfo = 'Ky Son'
+ORDER BY sampleName;
+```
+
+#### JDBC program
+
+Step 1. *Register driver and create driver instance*
+
+```java
+String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver";
+Class.forName(driverName);
+```
+
+Step 2. *Get connection*
+
+```java
+Connection connection = DriverManager.getConnection("jdbc:hive://localhost:10000/default", "", "");
+```
+
+Step 3. *Create and execute statement*
+
+```java
+Statement statement = connection.createStatement();
+statement.executeQuery("SELECT sampleID, sampleName"
++ "FROM sampleTable"
++ "WHERE sampleInfo = 'Ky Son'"
++ "ORDER BY sampleName;");
+```
+
+### Delete Data
+
+#### Syntax
+
+```hive
+DELETE FROM tablename [WHERE expression];
+```
+
+#### Example
+
+```hive
+DELETE FROM sampleTable WHERE sampleID = 0;
+```
+
+#### Verification
+
+```hive
+SELECT * FROM sampleTable;
+```
+
+#### JDBC program
+
+Step 1. *Register driver and create driver instance*
+
+```java
+String driverName = "org.apache.hadoop.hive.jdbc.HiveDriver";
+Class.forName(driverName);
+```
+
+Step 2. *Get connection*
+
+```java
+Connection connection = DriverManager.getConnection("jdbc:hive://localhost:10000/default", "", "");
+```
+
+Step 3. *Create and execute statement*
+
+```java
+Statement statement = connection.createStatement();
+statement.executeQuery("DELETE FROM sampleTable WHERE sampleID = 0;");
+```
