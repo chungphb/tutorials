@@ -299,6 +299,362 @@
 
   * *Example:* `UNIONTYPE<INT, STRING>`
 
+### Built-in Operators
+
+#### Relational Operators
+
+<table>
+    <thead>
+        <tr>
+            <th>Operator</th>
+            <th>Operands</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>A = B</td>
+            <td>All primitive types</td>
+            <td>TRUE if A is equivalent to B.</td>
+        </tr>
+        <tr>
+            <td>A != B</td>
+            <td>All primitive types</td>
+            <td>TRUE if A is NOT equivalent to B.</td>
+        </tr>
+        <tr>
+            <td>A < B</td>
+            <td>All primitive types</td>
+            <td>TRUE if A is less than B.</td>
+        </tr>
+        <tr>
+            <td>A > B</td>
+            <td>All primitive types</td>
+            <td>TRUE if A is greater than B.</td>
+        </tr>
+        <tr>
+            <td>A <= B</td>
+            <td>All primitive types</td>
+            <td>TRUE if A is less than or equal to B.</td>
+        </tr>
+        <tr>
+            <td>A >= B</td>
+            <td>All primitive types</td>
+            <td>TRUE if A is greater than or equal to B.</td>
+        </tr>
+        <tr>
+            <td>A IS NULL</td>
+            <td>All primitive types</td>
+            <td>TRUE if A evaluates to NULL.</td>
+        </tr>
+        <tr>
+            <td>A IS NOT NULL</td>
+            <td>All primitive types</td>
+            <td>TRUE if A evaluates to NOT NULL.</td>
+        </tr>
+        <tr>
+            <td>S1 LIKE S2</td>
+            <td>STRING</td>
+            <td>TRUE if S1 matches to S2.</td>
+        </tr>
+        <tr>
+            <td>S1 RLIKE S2</td>
+            <td>STRING</td>
+            <td>
+                NULL if S1 or S2 is NULL.<br/>
+                TRUE if any substring of S1 matches the regular expression S2.
+            </td>
+        </tr>
+        <tr>
+            <td>S1 REGEXP S2</td>
+            <td>STRING</td>
+            <td>Same as RLIKE.</td>
+        </tr>
+    </tbody>
+</table>
+
+#### Arithmetic Operators
+
+<table>
+    <thead>
+        <tr>
+            <th>Operator</th>
+            <th>Operands</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>A + B</td>
+            <td>All number types</td>
+            <td>Adding A to B.</td>
+        </tr>
+        <tr>
+            <td>A - B</td>
+            <td>All number types</td>
+            <td>Subtracting B from A.</td>
+        </tr>
+        <tr>
+            <td>A * B</td>
+            <td>All number types</td>
+            <td>Multiplying A and B.</td>
+        </tr>
+        <tr>
+            <td>A / B</td>
+            <td>All number types</td>
+            <td>Dividing B from A.</td>
+        </tr>
+        <tr>
+            <td>A % B</td>
+            <td>All number types</td>
+            <td>Reminder resulting from dividing A by B.</td>
+        </tr>
+        <tr>
+            <td>A & B</td>
+            <td>All number types</td>
+            <td>Bitwise AND of A and B.</td>
+        </tr>
+        <tr>
+            <td>A | B</td>
+            <td>All number types</td>
+            <td>Bitwise OR of A and B.</td>
+        </tr>
+        <tr>
+            <td>A ^ B</td>
+            <td>All number types</td>
+            <td>Bitwise XOR of A and B.</td>
+        </tr>
+        <tr>
+            <td>~A</td>
+            <td>All number types</td>
+            <td>Bitwise NOT of A.</td>
+        </tr>
+    </tbody>
+</table>
+
+#### Logical Operators
+
+<table>
+    <thead>
+        <tr>
+            <th>Operator</th>
+            <th>Operands</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>A AND B<br/>A && B</td>
+            <td>BOOLEAN</td>
+            <td>TRUE if both A and B are TRUE.</td>
+        </tr>
+        <tr>
+            <td>A OR B<br/>A || B</td>
+            <td>BOOLEAN</td>
+            <td>TRUE if either A or B or both are TRUE.</td>
+        </tr>
+        <tr>
+            <td>NOT A<br/>!A</td>
+            <td>BOOLEAN</td>
+            <td>TRUE if A is FALSE.</td>
+        </tr>
+    </tbody>
+</table>
+
+#### Complex Operators
+
+<table>
+    <thead>
+        <tr>
+            <th>Operator</th>
+            <th>Operands</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>A[n]</td>
+            <td>A is an ARRAY and n is an INT</td>
+            <td>The nth element in the array A.</td>
+        </tr>
+        <tr>
+            <td>M[key]</td>
+            <td>M is a MAP<K, V> and key has type K</td>
+            <td>The value corresponding to the key in the map.</td>
+        </tr>
+        <tr>
+            <td>S.x</td>
+            <td>S is a STRUCT</td>
+            <td>The x field of S.</td>
+        </tr>
+    </tbody>
+</table>
+
+### Built-in Functions
+
+#### Built-in Functions
+
+<table>
+    <thead>
+        <tr>
+            <th>Signature</th>
+            <th>Return type</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>round(DOUBLE n)</td>
+            <td>BIGINT</td>
+            <td>Returns the rounded BIGINT value of a DOUBLE value.</td>
+        </tr>
+        <tr>
+            <td>floor(DOUBLE n)</td>
+            <td>BIGINT</td>
+            <td>Returns the maximum BIGINT value that is equal to or less than a DOUBLE value.</td>
+        </tr>
+        <tr>
+            <td>ceil(DOUBLE n)</td>
+            <td>BIGINT</td>
+            <td>Returns the minimum BIGINT value that is equal to or greater than a DOUBLE value.</td>
+        </tr>
+        <tr>
+            <td>rand()<br/>rand(INT seed)</td>
+            <td>DOUBLE</td>
+            <td>Returns a random number.</td>
+        </tr>
+        <tr>
+            <td>concat(STRING str1, STRING str2, ...)</td>
+            <td>STRING</td>
+            <td>Returns the string resulting from concatenating <code>str2</code> to <code>str1</code>.</td>
+        </tr>
+        <tr>
+            <td>substr(STRING str, INT start)</td>
+            <td>STRING</td>
+            <td>Returns the substring of <code>str</code> starting from the <code>start</code> position till the end of it.</td>
+        </tr>
+        <tr>
+            <td>substr(STRING str, INT start, INT length)</td>
+            <td>STRING</td>
+            <td>Returns the substring of <code>str</code> starting from the <code>start</code> position with the given <code>length</code>.</td>
+        </tr>
+        <tr>
+            <td>upper(STRING str)<br/>ucase(STRING str)</td>
+            <td>STRING</td>
+            <td>Returns the string resulting from converting all characters of <code>str</code> to upper case.</td>
+        </tr>
+        <tr>
+            <td>lower(STRING str)<br/>lcase(STRING str)</td>
+            <td>STRING</td>
+            <td>Returns the string resulting from converting all characters of <code>str</code> to lower case.</td>
+        </tr>
+        <tr>
+            <td>trim(STRING str)</td>
+            <td>STRING</td>
+            <td>Returns the string resulting from trimming spaces from both ends of <code>str</code>.</td>
+        </tr>
+        <tr>
+            <td>ltrim(STRING str)</td>
+            <td>STRING</td>
+            <td>Returns the string resulting from trimming spaces from the beginning of <code>str</code>.</td>
+        </tr>
+        <tr>
+            <td>rtrim(STRING str)</td>
+            <td>STRING</td>
+            <td>Returns the string resulting from trimming spaces from the end of <code>str</code>.</td>
+        </tr>
+        <tr>
+            <td>regexp_replace(STRING initial_str, STRING pattern, STRING replacement)</td>
+            <td>STRING</td>
+            <td>Returns the string resulting from replacing all substrings in <code>initial_str</code> that match the regular expression <code>pattern</code> with <code>replacement</code>.</td>
+        </tr>
+        <tr>
+            <td>size(MAP&ltK, V&gt m)</td>
+            <td>INT</td>
+            <td>Returns the number of elements in a map.</td>
+        </tr>
+        <tr>
+            <td>size(ARRAY&ltT&gt arr)</td>
+            <td>INT</td>
+            <td>Returns the number of elements in an array.</td>
+        </tr>
+        <tr>
+            <td>cast(&ltexpr&gt as &lttype&gt)</td>
+            <td>&lttype&gt</td>
+            <td>Converts the results of <code>expr</code> to <code>type</code>.</td>
+        </tr>
+        <tr>
+            <td>from_unixtime(INT unixtime)</td>
+            <td>STRING</td>
+            <td>Converts the number of seconds from Unix epoch to a string representing the timestamp of that moment in the current system time zone.</td>
+        </tr>
+        <tr>
+            <td>to_date(STRING timestamp)</td>
+            <td>STRING</td>
+            <td>Returns the date part of a timestamp string.</td>
+        </tr>
+        <tr>
+            <td>year(STRING date)</td>
+            <td>INT</td>
+            <td>Returns the year part of a date or a timestamp string.</td>
+        </tr>
+        <tr>
+            <td>month(STRING date)</td>
+            <td>INT</td>
+            <td>Returns the month part of a date or a timestamp string.</td>
+        </tr>
+        <tr>
+            <td>day(STRING date)</td>
+            <td>INT</td>
+            <td>Returns the day part of a date or a timestamp string.</td>
+        </tr>
+        <tr>
+            <td>get_json_object(STRING json, STRING path)</td>
+            <td>STRING</td>
+            <td>Extracts JSON object from a JSON string based on JSON path specified, and returns JSON string of the extracted JSON object.</td>
+        </tr>
+    </tbody>
+</table>
+
+#### Aggregate Functions
+
+<table>
+    <thead>
+        <tr>
+            <th>Signature</th>
+            <th>Return type</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>count(*)<br/>count(expr)</td>
+            <td>BIGINT</td>
+            <td>Returns the total number of retrieved rows.</td>
+        </tr>
+        <tr>
+            <td>sum(col)<br/>sum(DISTINCT col)</td>
+            <td>BIGINT</td>
+            <td>Returns the sum of all values / distinct values of a column in a group.</td>
+        </tr>
+        <tr>
+            <td>avg(col)<br/>avg(DISTINCT col)</td>
+            <td>BIGINT</td>
+            <td>Returns the average of all values / distinct values of a column in a group.</td>
+        </tr>
+        <tr>
+            <td>min(col)</td>
+            <td>DOUBLE</td>
+            <td>Returns the minimum value of a column in a group.</td>
+        </tr>
+        <tr>
+            <td>max(col)</td>
+            <td>DOUBLE</td>
+            <td>Returns the maximum value of a column in a group.</td>
+        </tr>
+    </tbody>
+</table>
+
 ## Database Operations
 
 ### Create Database
