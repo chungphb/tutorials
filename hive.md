@@ -1444,3 +1444,156 @@ Step 3. *Create and execute statement*
 Statement statement = connection.createStatement();
 statement.executeQuery("DELETE FROM sampleTable WHERE sampleID = 0;");
 ```
+
+## [Optimization](https://towardsdatascience.com/apache-hive-optimization-techniques-1-ce55331dbf5e)
+
+### Partitioning
+
+* Divides the table into parts based on the values of particular columns.
+
+  * Creates folders on the basis of partition column values.
+  * The data of the partition columns are not stored in the files.
+
+* Querying will only scan the relevant partitions and skip irrelevant ones.
+
+* Big partition can be further divided into more manageable chunks using Bucketing.
+
+* Syntax:
+
+  ```hive
+  // Creating a table:
+  CREATE TABLE table_name (column_name data_type, column_name data_type, ...)
+  PARTITIONED BY (partition_column_name data_type, partition_column_name data_type, ...);
+  
+  // Inserting data into a table:
+  INSERT INTO TABLE table_name
+  PARTITION (partition_column_name = ‘partition_column_value’, partition_column_name = ‘partition_column_value’, ...)
+  VALUES (column_value, column_value, ...);
+  ```
+
+* There are two types of partitioning: ***Static*** and ***Dynamic***.
+
+  * Static partitioning
+
+    * Used when we have knowledge about the partitions of the data.
+
+    * Preferred when loading data from large files.
+
+    * Performed in strict mode:
+
+      ``````hive
+      SET hive.mapred.mode = strict;
+
+  * Dynamic partitioning
+
+    * Used when we do not have knowledge about the partitions of the data.
+
+    * Takes more time to load data.
+
+    * Loading usually requires using a non-partitioned table.
+
+    * Setting:
+
+      ```hive
+      SET hive.exec.dynamic.partition = true;
+      ```
+
+    * There are two modes of dynamic partitioning:
+
+      * ***Strict:*** Needs at least one column to be static while loading the data.
+
+      * ***Non-strict:*** Allows to have dynamic values of all the partition columns.
+
+        ```
+        SET hive.exec.dynamic.partition.mode = nonstrict;
+        ```
+
+    * Other settings when using dynamic partitioning:
+
+      <table>
+          <thead>
+              <tr>
+                  <th>Setting</th>
+                  <th>Meaning</th
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td>hive.exec.max.dynamic.partitions.pernode</td>
+                  <td>Maximum number of dynamic partitions allowed to be created in each mappper/reducer node</td>
+              </tr>
+              <tr>
+                  <td>hive.exec.max.dynamic.partitions</td>
+                  <td>Maximum number of dynamic partitions allowed to be created in total</td>
+              </tr>
+              <tr>
+                  <td>hive.exec.max.created.files</td>
+                  <td>Maximum number of HDFS files created by all mappers/reducers in a MapReduce job</td>
+              </tr>
+              <tr>
+                  <td>hive.error.on.empty.partition</td>
+                  <td>Whether to throw an exception if the dynamic partition insert generates empty results</td>
+              </tr>
+          </tbody>
+      </table>
+
+### Bucketing
+
+* Further segregate the data into more manageable sections called ***buckets*** or ***clusters***.
+
+* Based on a hash function which inherently depends on the type of the bucketing column.
+
+* Each bucket will be created as a file.
+
+* Data can also be sorted using one or more columns.
+
+* Syntax:
+
+  ```hive
+  CREATE TABLE table_name (column_name data_type, column_name data_type, ...)
+  PARTITIONED BY (partition_column_name data_type, partition_column_name data_type, ...);
+  CLUSTERED BY (cluster_column_name, cluster_column_name, ...)
+  SORTED BY (sort_column_name [ASC|DESC], sort_column_name [ASC|DESC], ...)
+  INTO num_buckets BUCKETS;
+  ```
+
+* Should be used with ORC files and used as the joining column to gain more benefits.
+
+### Using Tez as Execution Engine
+
+* A client-side library which operates like an execution engine.
+
+* An alternative to the traditional MapReduce Engine.
+
+  * The typical processing sequence of a MapReduce job: `(TODO)`
+  * Tez optimizes it by not breaking a Hive query in multiple MapReduce jobs while using these following steps:
+    * Skipping the DFS write by a Reducer and piping its output to the subsequent Mapper.
+    * Cascading a series of Reducers without intervening Mapper steps.
+    * Re-use of containers for successive phases of processing.
+    * Optimal resource usage using pre-warmed containers.
+    * Cost-based optimizations.
+    * Vectorized query processing.
+
+* Allows faster processing using the ***DAG formation***.
+
+* Syntax:
+
+  ```hive
+  SET hive.execution.engine = tez/mr;
+  ```
+
+### Using Compression
+
+* Reduces the size of the data processed by a lot of Disks I/O or Network I/O operations while querying.
+* Can lead to big savings since most of the data formats are text-based.
+* Involves a trade-off with the CPU cost of compression and decompression.
+* Used mainly in these situations:
+  * Reading data from a local DFS directory
+  * Reading data from a non-local DFS directory
+  * Moving data from Reducers to the next stage Mappers/Reducers
+  * Moving the final output back to the DFS
+  * Replicating data for fault-tolerant
+* Text files compressed with Gzip or Bzip2:
+  * Can be imported directly.
+  * Decompressed on-the-fly during query execution.
+  * Can not be split into chunks/blocks and allow running multiple maps in parallel.
