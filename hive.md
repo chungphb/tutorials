@@ -1520,7 +1520,7 @@ statement.executeQuery("DELETE FROM sampleTable WHERE sampleID = 0;");
           <tbody>
               <tr>
                   <td>hive.exec.max.dynamic.partitions.pernode</td>
-                  <td>Maximum number of dynamic partitions allowed to be created in each mappper/reducer node</td>
+                  <td>Maximum number of dynamic partitions allowed to be created in each Mappper/Reducer node</td>
               </tr>
               <tr>
                   <td>hive.exec.max.dynamic.partitions</td>
@@ -1528,7 +1528,7 @@ statement.executeQuery("DELETE FROM sampleTable WHERE sampleID = 0;");
               </tr>
               <tr>
                   <td>hive.exec.max.created.files</td>
-                  <td>Maximum number of HDFS files created by all mappers/reducers in a MapReduce job</td>
+                  <td>Maximum number of HDFS files created by all Mappers/Reducers in a MapReduce job</td>
               </tr>
               <tr>
                   <td>hive.error.on.empty.partition</td>
@@ -1597,3 +1597,244 @@ statement.executeQuery("DELETE FROM sampleTable WHERE sampleID = 0;");
   * Can be imported directly.
   * Decompressed on-the-fly during query execution.
   * Can not be split into chunks/blocks and allow running multiple maps in parallel.
+
+### Using ORC Format
+
+* The ORC storage strategy are both ***column-oriented*** and ***row-oriented***.
+
+  * An ORC format file consists of tabular data written in ***stripes*** of a convenient size to process in a single Mapper.
+  * In stripes, the columns are compressed separately; only the columns relevant for a query need to be decompressed.
+
+* Data in a stripe is divided into 3 groups:
+
+  * ***Stripe footer:*** Contains a directory of stream locations.
+  * ***Row data:*** Used in table scans, contains 10,000 rows by default.
+  * ***Index data:*** Includes min and max values for each column and row positions within each column.
+
+* Enables numerous optimizations:
+
+  * Achieves higher level of compression.
+  * Can skip scanning an entire range of rows within a block if irrelevant to the query.
+  * Can skip decompression an entire range of rows within a block, if irrelevant to the query.
+  * Reduces the load on the name node by producing one single file as the output of each task.
+  * Supports multiple streams to read the file simultaneously.
+  * Keeps the metadata stored in the file using Protocol Buffers for serializing structured data.
+
+* Also gives rise to the following optimizations:
+
+  * Push-down predicates
+
+    The ORC Reader:
+
+    * Uses the Index data of the stripes to make sure the data in the stripe is relevant to the query.
+    * Checks the WHERE conditions of the query before unpacking the relevant columns from the row data block.
+
+  * Bloom Filters
+
+    * A probabilistic data structure that tells us whether an element is present in a set or not.
+
+    * May tell that an element is present when it is not but never tell that an element is not present when it is.
+
+    * Helps in the push-down predicates for ORC file formats.
+
+    * Settings:
+
+      <table>
+          <thead>
+              <tr>
+                  <th>Setting</th>
+                  <th>Meaning</th
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td>orc.bloom.filter.columns</td>
+                  <td>Comma-separated list of column names for which Bloom filter should be created</td>
+              </tr>
+              <tr>
+                  <td>orc.bloom.filter.fpp</td>
+                  <td>False positive probability for Bloom filters</td>
+              </tr>
+          </tbody>
+      </table>
+
+  * ORC Compression
+
+    * Not only compresses the values of the columns but also compresses the stripes as a whole.
+
+    * Provides choices for the overall compression algorithm.
+
+      <table>
+          <thead>
+              <tr>
+                  <th></th>
+                  <th>zlib</th>
+                  <th>Snappy</th>
+                  <th>None</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <th>Compression ratio</th>
+                  <td>Higher</td>
+                  <td>Lower</td>
+                  <td>None</td>
+              </tr>
+              <tr>
+                  <th>CPU</th>
+                  <td>More</td>
+                  <td>Less</td>
+                  <td>x</td>
+              </tr>
+              <tr>
+                  <th>Space</th>
+                  <td>Less</td>
+                  <td>More</td>
+                  <td>x</td>
+              </tr>
+          </tbody>
+      </table>
+
+  * Vectorization
+
+    * Scanning, filtering, aggregations, and joins can be optimized to a great extent using the vectorized query execution.
+
+    * Vectorization optimizes the query execution by processing a block of 1024 rows at a time, inside which each row is saved as a vector.
+
+    * Execution is speeded up because within a large block of data of the same type, the compiler can generate code to execute identical functions in a tight loop without going through the long code path that would be required for independent function calls.
+
+    * Vectorized query execution can only be used when data is stored in the ORC file format.
+
+    * Settings:
+
+      ```hive
+      SET hive.vectorized.execution.enabled = true;
+      SET hive.vectorized.execution.reduce.enabled = true;
+      SET hive.vectorized.execution.reduce.groupby.enabled = true;
+      ```
+
+### Join Optimizations
+
+* How a common Join query is executed using MapReduce: `(TODO)`
+
+* Note 1: 
+  * The table mentioned last is streamed through the Reducers while the rest are buffered in these Reducers' memory.
+  * Therefore, always mentions the large table lasts to lessen the memory needed by the Reducer.
+  
+* Note 2:
+  * When WHERE clause is used with a Join, the Join part is executed first and then the results are filtered using the WHERE clauses.
+  * However, the same filtering could have been executed along when joining the tables.
+  
+* Join queries include a shuffle phase in which outputs of the Mappers is sorted and shuffled with the join keys, which takes a big cost to be executed.
+
+* A lot of Join algorithms have been worked on to reduce these costs, including:
+
+  * Multi-way Join
+
+    * When multiple Joins share the same driving side join key, they can be done in a single task (in the same Reducer).
+
+    * Multi-way Join:
+
+      * Reduces the number of Reducers by doing all reducing task in just one Reducer.
+      * Applied and managed by Hive itself.
+
+    * Example:
+
+      ```
+      SELECT table1.value, table2.value, table3.value
+      FROM table1 JOIN table2 ON (table1.key1 = table2.key2) JOIN table3 ON (table1.key1 = table3.key3);
+      ```
+
+  * Map Join
+
+    * Useful for [star schema](https://en.wikipedia.org/wiki/Star_schema) Joins.
+
+    * Keeps the small tables (dimension tables) in the memory of the Mappers and streams the big table (fact table) over them.
+
+      * For each of the small table, a hash table using join key as the hash key is created and will be used to match the data while merging.
+      * If all but one of the tables being joined are small, the Join can be performed as a Map only job.
+
+    * Setting:
+
+      ```hive
+      SET hive.auto.convert.join = true;
+      SET hive.auto.convert.join.noconditionaltask = true;
+      SET hive.auto.convert.join.noconditionaltask.size = 10000000;
+      ```
+
+  * Bucket Map Join
+
+    * Joins tables that are bucketed and joined on the bucketing column.
+
+      * One table should have buckets in multiples of the number of buckets in another table.
+      * Only the required buckets are fetched onto the mapper side but not the complete data of the table.
+
+    * Makes query processing easy and efficient in terms of performance while joining large bucketed tables.
+
+    * Settings:
+
+      ```hive
+      SET hive.optimize.bucketmapjoin = true;
+      ```
+
+  * Sort-Merge-Bucket Join
+
+    * An optimization on Bucket Map Join.
+
+    * If data to be joined is already sorted, the hash table will not be created and instead a Sort-Merge Join algorithm is used.
+
+    * Settings:
+
+      ```hive
+      SET hive.input.format = org.apache.hadoop.hive.ql.io.BucketizedHiveInputFormat;
+      SET hive.optimize.bucketmapjoin = true;
+      SET hive.optimize.bucketmapjoin.sortedmerge = true;
+      ```
+
+  * Skew Join
+
+    * When the distribution of data is skewed for some values, Join performance may be affected since some Reducers may get overloaded while others may get underutilized.
+
+    * On user hint, Hive will rewrite the query around skew value as union of Joins.
+
+    * Settings:
+
+      ```hive
+      SET hive.optimize.skewjoin = true;
+      SET hive.skewjoin.key = 500000;
+      ```
+
+### Cost-Based Optimizations
+
+* Until the rise of the Cost-Based Optimizer (CBO), Hive used the hardcoded query plans to execute a single query.
+
+* The CBO:
+  * Lets Hive optimize the query plan based on the metadata gathered.
+  * Provides two types of optimizations: logical and physical.
+  
+* Logical Optimizations
+  * Projection Pruning
+  * Deducing Transitive Predicates
+  * Predicate Pushdown
+  * Merging of Select-Select, Filter-Filter into a single operator
+  * Multi-way Join
+  * Query Rewrite to accommodate for Join skew on some column values
+
+* Physical Optimizations
+
+  * Partition Pruning
+  * Scan pruning based on partitions and bucketing
+  * Scan pruning if a query is based on sampling
+  * Apply Group By on the map side in some cases
+  * Optimize Union so that union can be performed on map side only
+  * Decide which table to stream last, based on user hint, in a multiway join
+  * Remove unnecessary reduce sink operators
+  * For queries with limit clause, reduce the number of files that needs to be scanned for the table
+
+* Setting:
+
+  ```hive
+  SET hive.cbo.enable = true;
+  ```
+
+  
