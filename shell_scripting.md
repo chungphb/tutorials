@@ -376,47 +376,48 @@ $ echo "Hello
     </thead>
     <tbody>
         <tr>
-            <td>DISPLAY</td>
+            <td><code>ISPLAY</code></td>
             <td>The identifier for the display</td>
         </tr>
         <tr>
-            <td>HOME</td>
+            <td><code>HOME</code></td>
             <td>The home directory of the current user</td>
         </tr>
         <tr>
-            <td>LANG</td>
+            <td><code>LANG</code></td>
             <td>The default system locale</td>
         </tr>
         <tr>
-            <td>LD_LIBRARY_PATH</td>
+            <td><code>LD_LIBRARY_PATH</code></td>
             <td>A colonseperated list of directories that the dynamic linker should search for shared objects</td>
         </tr>
         <tr>
-            <td>PATH</td>
+            <td><code>PATH</code></td>
             <td>The search path for commands</td>
         </tr>
         <tr>
-            <td>PWD</td>
+            <td><code>PWD</code></td>
             <td>The current working directory</td>
         </tr>
         <tr>
-            <td>RANDOM</td>
+            <td><code>RANDOM</code></td>
             <td>A random integer between 0 and 32,767</td>
         </tr>
         <tr>
-            <td>TERM</td>
+            <td><code>TERM</code></td>
             <td>The display type</td>
         </tr>
         <tr>
-            <td>TZ</td>
+            <td><code>TZ</code></td>
             <td>Time zone</td>
         </tr>
         <tr>
-            <td>UID</td>
+            <td><code>UID</code></td>
             <td>The numeric user ID of the current user</td>
         </tr>
     </tbody>
 </table>
+
 
 ### Pipes and Filters
 
@@ -609,19 +610,20 @@ $ finger
     </thead>
     <tbody>
         <tr>
-            <td>vi filename</td>
+            <td><code>vi filename</code></td>
             <td>Creates a new file if it does not exist, otherwise opens an existing file</td>
         </tr>
         <tr>
-            <td>vi -R filename</td>
+            <td><code>vi -R filename</code></td>
             <td>Opens an existing file in the read-only mode</td>
         </tr>
         <tr>
-            <td>view filename</td>
+            <td><code>view filename</code></td>
             <td>Opens an existing file in the read-only mode</td>
         </tr>
     </tbody>
 </table>
+
 
 #### Operation Modes
 
@@ -660,23 +662,24 @@ Enables inserting text into the file.
     </thead>
     <tbody>
         <tr>
-            <td>k</td>
+            <td><code>k</code></td>
             <td>Moves the cursor up one line</td>
         </tr>
         <tr>
-            <td>j</td>
+            <td><code>j</code></td>
             <td>Moves the cursor down one line</td>
         </tr>
         <tr>
-            <td>h</td>
+            <td><code>h</code></td>
             <td>Moves the cursor to the left one character position</td>
         </tr>
         <tr>
-            <td>l</td>
+            <td><code>l</code></td>
             <td>Moves the cursor to the right one character position</td>
         </tr>
     </tbody>
 </table>
+
 
 #### Commands
 
@@ -691,31 +694,32 @@ Enables inserting text into the file.
     </thead>
     <tbody>
         <tr>
-            <td>i</td>
+            <td><code>i</code></td>
             <td>Inserts text before the current cursor location</td>
         </tr>
         <tr>
-            <td>l</td>
+            <td><code>l</code></td>
             <td>Inserts text at the beginning of the current line</td>
         </tr>
         <tr>
-            <td>a</td>
+            <td><code>a</code></td>
             <td>Inserts text after the current cursor location</td>
         </tr>
         <tr>
-            <td>A</td>
+            <td><code>A</code></td>
             <td>Inserts text at the end of the current line</td>
         </tr>
         <tr>
-            <td>o</td>
+            <td><code>o</code></td>
             <td>Creates a new line for text entry below the cursor location</td>
         </tr>
         <tr>
-            <td>O</td>
+            <td><code>O</code></td>
             <td>Creates a new line for text entry above the cursor location</td>
         </tr>
     </tbody>
 </table>
+
 ##### Delete characters
 
 <table>
@@ -727,35 +731,36 @@ Enables inserting text into the file.
     </thead>
     <tbody>
         <tr>
-            <td>x</td>
+            <td><code>x</code></td>
             <td>Deletes the character under the cursor location</td>
         </tr>
         <tr>
-            <td>X</td>
+            <td><code>X</code></td>
             <td>Deletes the character before the cursor location</td>
         </tr>
         <tr>
-            <td>dw</td>
+            <td><code>dw</code></td>
             <td>Deletes from the current cursor location to the next word</td>
         </tr>
         <tr>
-            <td>d^</td>
+            <td><code>d^</code></td>
             <td>Deletes from the current cursor position to the beginning of the line</td>
         </tr>
         <tr>
-            <td>d$</td>
+            <td><code>d$</code></td>
             <td>Deletes from the current cursor position to the end of the line</td>
         </tr>
         <tr>
-            <td>D</td>
+            <td><code>D</code></td>
             <td>Deletes from the cursor position to the end of the current line</td>
         </tr>
         <tr>
-            <td>dd</td>
+            <td><code>dd</code></td>
             <td>Deletes the line the cursor is on</td>
         </tr>
     </tbody>
 </table>
+
 
 ##### Change commands
 
@@ -768,31 +773,32 @@ Enables inserting text into the file.
     </thead>
     <tbody>
         <tr>
-            <td>cc</td>
-            <td>Removes the contents of the line (vi remains in the insert mode)</td>
+            <td><code>cc</code></td>
+            <td>Removes the contents of the line (<code>vi</code> remains in the insert mode)</td>
         </tr>
         <tr>
-            <td>cw</td>
+            <td><code>cw</code></td>
             <td>Changes the word the cursor is on from the cursor to the lowercase w end of the word.(?)</td>
         </tr>
         <tr>
-            <td>r</td>
-            <td>Replaces the character under the cursor (vi leaves the insert mode)</td>
+            <td><code>r</code></td>
+            <td>Replaces the character under the cursor (<code>vi</code> leaves the insert mode)</td>
         </tr>
         <tr>
-            <td>R</td>
+            <td><code>R</code></td>
             <td>Overwrites multiple characters beginning with the character currently under the cursor</td>
         </tr>
         <tr>
-            <td>s</td>
-            <td>Replaces the current character with the character you type (vi remains in the insert mode)</td>
+            <td><code>s</code></td>
+            <td>Replaces the current character with the character you type (<code>vi</code> remains in the insert mode)</td>
         </tr>
         <tr>
-            <td>S</td>
-            <td>Deletes the line the cursor is on and replaces it with the new text (vi remains in the insert mode)</td>
+            <td><code>S</code></td>
+            <td>Deletes the line the cursor is on and replaces it with the new text (<code>vi</code> remains in the insert mode)</td>
         </tr>
     </tbody>
 </table>
+
 
 ##### Copy and Paste Commands
 
@@ -805,23 +811,24 @@ Enables inserting text into the file.
     </thead>
     <tbody>
         <tr>
-            <td>yy</td>
+            <td><code>yy</code></td>
             <td>Copies the current line</td>
         </tr>
         <tr>
-            <td>yw</td>
+            <td><code>yw</code></td>
             <td>Copies the current word from the character the lowercase w cursor is on, until the end of the word (?)</td>
         </tr>
         <tr>
-            <td>p</td>
+            <td><code>p</code></td>
             <td>Pastes the copied text after the cursor</td>
         </tr>
         <tr>
-            <td>P</td>
-            <td>Pastes the copied text before the cursorr</td>
+            <td><code>P</code></td>
+            <td>Pastes the copied text before the cursor</td>
         </tr>
     </tbody>
 </table>
+
 
 #### Advanced Commands
 
@@ -847,35 +854,36 @@ Enables inserting text into the file.
     </thead>
     <tbody>
         <tr>
-            <td>^</td>
+            <td><code>^</code></td>
             <td>The beginning of a line</td>
         </tr>
         <tr>
-            <td>.</td>
+            <td><code>.</code></td>
             <td>Matches a single character</td>
         </tr>
         <tr>
-            <td>*</td>
+            <td><code>*</code></td>
             <td>Matches zero or more of the previous character</td>
         </tr>
         <tr>
-            <td>$</td>
+            <td><code>$</code></td>
             <td>The end of a line</td>
         </tr>
         <tr>
-            <td>[</td>
+            <td><code>[</code></td>
             <td>Starts a set of matching or non-matching expressions</td>
         </tr>
         <tr>
-            <td>&lt</td>
+            <td><code>&lt</code></td>
             <td>This is put in an expression escaped with the backslash to find the ending or the beginning of a word</td>
         </tr>
         <tr>
-            <td>&gt</td>
-            <td>This helps see the &lt character description above</td>
+            <td><code>&gt</code></td>
+            <td>Helps see the <code>&lt</code> character</td>
         </tr>
     </tbody>
 </table>
+
 
 * For character searches:
   * The `f` and `F` commands search for the character after the cursor on the current line.
@@ -897,47 +905,48 @@ Enables inserting text into the file.
     </thead>
     <tbody>
         <tr>
-            <td>:set ic</td>
+            <td><code>:set ic</code></td>
             <td>Ignores the case when searching</td>
         </tr>
         <tr>
-            <td>:set ai</td>
+            <td><code>:set ai</code></td>
             <td>Sets autoindent</td>
         </tr>
         <tr>
-            <td>:set noai</td>
+            <td><code>:set noai</code></td>
             <td>Unsets autoindent</td>
         </tr>
         <tr>
-            <td>:set nu</td>
+            <td><code>:set nu</code></td>
             <td>Displays lines with line numbers</td>
         </tr>
         <tr>
-            <td>:set sw</td>
+            <td><code>:set sw</code></td>
             <td>Sets the width of a software tabstop</td>
         </tr>
         <tr>
-            <td>:set ws</td>
+            <td><code>:set ws</code></td>
             <td>If wrapscan is set, and the word is not found at the bottom of the file, it will try searching for it at the beginning</td>
         </tr>
         <tr>
-            <td>:set wm</td>
+            <td><code>:set wm</code></td>
             <td>If this option has a value greater than zero, the editor will automatically "word wrap"</td>
         </tr>
         <tr>
-            <td>:set ro</td>
+            <td><code>:set ro</code></td>
             <td>Changes file type to "read only"</td>
         </tr>
         <tr>
-            <td>:set term</td>
+            <td><code>:set term</code></td>
             <td>Prints terminal type</td>
         </tr>
         <tr>
-            <td>:set bf</td>
+            <td><code>:set bf</code></td>
             <td>Discards control characters from input</td>
         </tr>
     </tbody>
 </table>
+
 
 ##### Run Commands
 
@@ -947,9 +956,1022 @@ Enables inserting text into the file.
 ##### Replace Text
 
 ```bash
-:s/search/replace/g		# The g stands for globally
+:s/search/replace/g # The g stands for globally
 ```
 
 ## Shell Programming
+
+### Shell Scripting
+
+#### Shell Types
+
+* In Unix,  there are two major types of shells:
+  * ***Bourne shell:*** The `$` character is the default prompt.
+    * Bourne shell (sh)
+    * Korn shell (ksh)
+    * Bourne Again shell (bash)
+    * POSIX shell (sh)
+  * ***C shell:*** The `%` character is the default prompt
+    * C shell (csh)
+    * TENEX/TOPS C shell (tcsh)
+* Bourne shell was the first shell to appear on Unix systems.
+* Bourne shell is usually installed as `/bin/sh` on most versions of Unix.
+
+#### Shell Scripts
+
+* To alert the system that a shell script is being started, uses the ***shebang*** construct.
+
+* Example:
+
+```bash
+#!/bin/bash
+ls -l
+```
+
+* To make the script executable:
+
+```bash
+$ chmod +x sample_script.sh
+```
+
+* To execute the script:
+
+```bash
+$ ./sample_script.sh
+```
+
+### Variables
+
+#### Name
+
+* Can contain only letters, numbers  or the underscore character.
+* In UPPERCASE by convention.
+
+```bash
+VAR_1
+VAR_2
+_LXT
+```
+
+#### Types
+
+* Local Variables
+  * Present within the current instance of the shell.
+  * Not available to programs started by the shell.
+  * Set at the command prompt.
+* Environment Variables
+  * Available to any child process of the shell.
+  * Needed by some programs in order to function correctly.
+* Shell Variables
+  * Special variables set by the shell that and required by the shell in order to function correctly.
+  * Can be environment variables or local variables.
+
+#### Define Variables
+
+* Syntax: `variable_name=variable_value`
+* Example: `CITY="Hanoi"`
+
+#### Access Variables
+
+* To access a  variable, prefix its name with `$`.
+* Example:
+
+```bash
+#!/bin/bash
+
+CITY="Hanoi"
+echo $CITY
+```
+
+#### Read-only Variables
+
+* To mark variables as read-only, uses the `readonly` command.
+* Example:
+
+```bash
+#!/bin/bash
+
+CITY="Hanoi"
+readonly CITY
+CITY="New York" # Failed
+```
+
+#### Unset Variables
+
+* To unset or delete a variable from the list of variables tracked by the shell, uses the `unset` command.
+* Example:
+
+```bash
+#!/bin/bash
+
+CITY="Hanoi"
+unset CITY
+echo $CITY # Prints nothing
+```
+
+### Special variables
+
+<table>
+    <thead>
+        <tr>
+            <th>Variable</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>$0</code></td>
+            <td>The current script's name</td>
+        </tr>
+        <tr>
+            <td><code>$n (n = 1, 2, etc.)</code></td>
+            <td>These variables correspond to the arguments with which a script was invoked.</td>
+        </tr>
+        <tr>
+            <td><code>$#</code></td>
+            <td>The number of arguments supplied to a script</td>
+        </tr>
+        <tr>
+            <td><code>$*</code></td>
+            <td>All the arguments (double quoted)</td>
+        </tr>
+        <tr>
+            <td><code>$@</td>
+            <td>All the arguments (double quoted individually)</td>
+        </tr>
+        <tr>
+            <td><code>$?</code></td>
+            <td>The exit status of the last executed command</td>
+        </tr>
+        <tr>
+            <td><code>$$</code></td>
+            <td>The process ID of the current shell</td>
+        </tr>
+        <tr>
+            <td><code>$!</code></td>
+            <td>The process ID of the last background command</td>
+        </tr>
+    </tbody>
+</table>
+
+```bash
+#!/bin/bash
+
+echo "Script name: $0"
+echo "The 1st argument: $1"
+echo "The 2nd argument: $2"
+echo "Quoted values: $*"
+echo "Quoted values: $@"
+echo "Number of argument: $#"
+
+# ./sample_script.sh Taylor Swift
+```
+
+### Arrays
+
+####  Define Arrays
+
+* Syntax: `array_name=(value_1 ... value_n)`
+* Example:
+
+```bash
+#!/bin/bash
+
+SONGS=("All Too Well" "august", "Blank Space", "Enchanted", "Style", "tis the damn season")
+```
+
+#### Access Arrays
+
+* To access an item: `${array_name[index]}`
+* To access all items: `${array_name[*]}`, or `${array_name[@]}`
+* Example:
+
+```bash
+#!/bin/bash
+
+SONGS=("All Too Well" "august", "Blank Space", "Enchanted", "Style", "tis the damn season")
+echo "The best song of Taylor Swift: ${SONGS[0]}"
+echo "The second best song of Taylor Swift: ${SONGS[1]}"
+echo "The best songs of Taylor Swift: ${SONGS[*]}"
+```
+
+### File Test Operators
+
+<table>
+    <thead>
+        <tr>
+            <th>Operator</th>
+            <th>Description</th>
+            <th>Example</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>-b &ltfilename&gt</code></td>
+            <td>Checks if a file is a block special file</td>
+            <td><code>[ -b $file ]</code></td>
+        </tr>
+        <tr>
+            <td><code>-c &ltfilename&gt</code></td>
+            <td>Checks if a file is a character special file</td>
+            <td><code>[ -c $file ]</code></td>
+        </tr>
+        <tr>
+            <td><code>-d &ltfilename&gt</code></td>
+            <td>Checks if a file is a directory</td>
+            <td><code>[ -d $file </code>]</td>
+        </tr>
+        <tr>
+            <td><code>-f &ltfilename&gt</code></td>
+            <td>Checks if a file is an ordinary file as opposed to a directory or special file</td>
+            <td><code>[ -f $file ]</code></td>
+        </tr>
+        <tr>
+            <td><code>-g &ltfilename&gt</code></td>
+            <td>Checks if a file has its Set Group ID (SGID) bit set</td>
+            <td><code>[ -g $file ]</code></td>
+        </tr>
+        <tr>
+            <td><code>-k &ltfilename&gt</code></td>
+            <td>Checks if a file has its sticky bit set</td>
+            <td><code>[ -k $file ]</code></td>
+        </tr>
+        <tr>
+            <td><code><code>-p &ltfilename&gt</code></td>
+            <td>Checks if a file is a named pipe</td>
+            <td><code>[ -p $file ]</code></td>
+        </tr>
+        <tr>
+            <td><code>-t &ltfilename&gt</code></td>
+            <td>Checks if a file descriptor is open and associated with a terminal</td>
+            <td><code>[ -t $file ]</code></td>
+        </tr>
+        <tr>
+            <td><code>-u &ltfilename&gt</code></td>
+            <td>Checks if file has its Set User ID (SUID) bit set</td>
+            <td><code>[ -u $file ]</code></td>
+        </tr>
+        <tr>
+            <td><code>-r &ltfilename&gt</code></td>
+            <td>Checks if a file is readable</td>
+            <td><code>[ -r $file ]</code></td>
+        </tr>
+        <tr>
+            <td><code>-w &ltfilename&gt</code></td>
+            <td>Checks if a file is writable</td>
+            <td><code>[ -w $file ]</code></td>
+        </tr>
+        <tr>
+            <td><code>-x &ltfilename&gt</code></td>
+            <td>Checks if a file is executable</td>
+            <td><code>[ -x $file ]</code></td>
+        </tr>
+        <tr>
+            <td><code>-s &ltfilename&gt</code></td>
+            <td>Checks if a file has size greater than 0</td>
+            <td><code>[ -s $file ]</code></td>
+        </tr>
+        <tr>
+            <td><code>-e &ltfilename&gt</code></td>
+            <td>Checks if a file exists</td>
+            <td><code>[ -e $file ]</code></td>
+        </tr>
+    </tbody>
+</table>
+
+```bash
+~!/bin/bash
+FILE="/home/chungphb/sample/sample.txt"
+
+# Checks if a file exists
+if [ -d $FILE ]
+then
+	echo "File exists"
+else
+	echo "File not exists"
+
+# Checks if a file is a directory
+if [ -d $FILE ]
+then
+	echo "File is a directory"
+else
+	echo "File is not a directory"
+
+# Checks if a file is readable
+if [ -r $FILE ]
+then
+	echo "File is readable"
+else
+	echo "File is not readable"
+```
+
+### Decision Making
+
+#### `if...else` statements
+
+##### `if...fi ` statement
+
+* Syntax:
+
+```bash
+if [ expression ] 
+then 
+   Statement(s) to be executed if expression is true 
+fi
+```
+
+* Example:
+
+```bash
+#!/bin/bash
+
+VAR_1=4
+VAR_2=25
+
+if [ $VAR_1 == $VAR_2 ]
+then
+	echo "$VAR_1 is equal to $VAR_2"
+fi
+
+if [ $VAR_1 != $VAR_2 ]
+then
+	echo "$VAR_1 is not equal to $VAR_2"
+fi
+```
+
+##### `if...else...fi` statement
+
+* Syntax:
+
+```bash
+if [ expression ]
+then
+   Statement(s) to be executed if expression is true
+else
+   Statement(s) to be executed if expression is not true
+fi
+```
+
+* Example:
+
+```bash
+#!/bin/bash
+
+VAR_1=4
+VAR_2=25
+
+if [ $VAR_1 == $VAR_2 ]
+then
+	echo "$VAR_1 is equal to $VAR_2"
+else
+	echo "$VAR_1 is not equal to $VAR_2"
+fi
+```
+
+##### `if...elif...else...fi` statement
+
+* Syntax:
+
+```bash
+if [ expression 1 ]
+then
+   Statement(s) to be executed if expression 1 is true
+elif [ expression 2 ]
+then
+   Statement(s) to be executed if expression 2 is true
+elif [ expression 3 ]
+then
+   Statement(s) to be executed if expression 3 is true
+else
+   Statement(s) to be executed if no expression is true
+fi
+```
+
+* Example:
+
+```bash
+#!/bin/bash
+
+VAR_1=4
+VAR_2=25
+
+if [ $VAR_1 == $VAR_2 ]
+then
+	echo "$VAR_1 is equal to $VAR_2"
+elif [ $VAR_1 -gt $VAR_2 ]
+	echo "$VAR_1 is greater than $VAR_2"
+elif [ $VAR_1 -lt $VAR_2 ]
+	echo "$VAR_1 is less than $VAR_2"
+else
+	echo "Something went wrong"
+fi
+```
+
+#### `case...esac` statement
+
+* Syntax:
+
+```bash
+case word in
+	pattern1)
+		Statement(s) to be executed if pattern1 matcheS
+		;;
+	pattern2)
+		Statement(s) to be executed if pattern2 matches
+		;;
+	pattern3)
+		Statement(s) to be executed if pattern3 matches
+		;;
+	*)
+		Statement(s) to be executed by default
+		;;
+esac
+```
+
+* Example:
+
+```bash
+#!/bin/bash
+
+STAGES_OF_GRIEF="Acceptance"
+
+case "$STAGES_OF_GRIEF" in
+	"Denial")
+		echo "Watch HOANG HON"
+		;;
+	"Anger")
+		echo "Watch VO NAT"
+		;;
+	"Bargaining")
+		echo "Watch THI DU"
+		;;
+	"Depression")
+		echo "Watch HA NOI"
+		;;
+	"Acceptance")
+		echo "Watch MUA HE"
+		;;
+	*)
+		echo "Subscribe"
+		;;
+esac
+```
+
+```bash
+#!/bin/bash
+
+OPTION="${1}"
+
+case ${OPTION} in
+	-f)
+        FILE="${2}"
+        echo "File name is $FILE"
+        ;;
+	-d)
+        DIR="{2}"
+        echo "Dir name is $DIR"
+        ;;
+	*)
+        echo "`basename ${0}`: usage: [-f file] | [-d directory]"
+        exit 1
+        ;;
+esac
+```
+
+### Loops
+
+#### The `while` loop
+
+* Syntax:
+
+```bash
+while condition
+do
+   Statement(s) to be executed if condition is true
+done
+```
+
+* Example:
+
+```bash
+#!/bin/bash
+
+VAR=4
+
+while [ $VAR -gt 0 ]
+do
+	echo $VAR
+	VAR=`expr $VAR - 1`
+done
+```
+
+#### The `for` loop
+
+* Syntax:
+
+```bash
+for var in value_1 value_2 ... value_N
+do
+   Statement(s) to be executed for every value
+done
+```
+
+* Example:
+
+```bash
+#!/bin/bash
+
+for VAR in 4 12 13 25
+do
+	echo $VAR
+done
+```
+
+```bash
+#!/bin/bash
+
+for FILE in $HOME/sample/sample*
+do
+	echo $FILE
+done
+```
+
+#### The `util` loop
+
+* Syntax:
+
+```bash
+until condition
+do
+   Statement(s) to be executed until condition is true
+done
+```
+
+* Example:
+
+```bash
+#!/bin/bash
+
+VAR=4
+
+until [ $VAR -lt 0 ]
+do
+	echo $VAR
+	VAR=`expr $VAR - 1`
+done
+```
+
+#### The `select` loop
+
+* Usage: Provides an easy way to create a numbered menu from which users can select options.
+* Syntax:
+
+```bash
+select var in value_1 value_2 ... value_N
+do
+   Statement(s) to be executed for every value
+done
+```
+
+* Example:
+
+```bash
+#!/bin/bash
+
+select ALBUM in Red 1989 folklore evermore Fearless reputation
+do
+	case $ALBUM in
+		Red|Fearless)
+			echo "Country"
+			;;
+		1989|reputation)
+			echo "Pop"
+			;;
+		folklore|evermore)
+			echo "Folk"
+			;;
+		*)
+			echo "Invalid option"
+			;;
+	esac
+done
+```
+
+#### The `break` statement
+
+* Syntax:
+
+```bash
+# Exits the loop
+break
+
+# Exits the nested loop
+break N
+```
+
+* Example:
+
+```bash
+#!/bin/bash
+
+VAR=4
+
+while [ $VAR -gt 0 ]
+do
+	echo $VAR
+	if [ $VAR -eq 2 ]
+	then
+		break
+	fi
+	VAR=`expr $VAR - 1`
+done
+```
+
+#### The `continue` statement
+
+* Syntax:
+
+```bash
+# Skips the current iteration of the loop
+continue
+
+# Skips the current iteration of the loop
+continue N
+```
+
+* Example:
+
+```bash
+#!/bin/bash
+
+VAR=4
+
+while [ $VAR -gt 0 ]
+do
+	VAR=`expr $VAR - 1`
+	if [ $VAR -gt 2 ]
+	then
+		continue
+	fi
+	echo $VAR
+done
+```
+
+### Substitution
+
+#### What is Substitution?
+
+* Happened when the shell encounters an expression that contains one or more special characters.
+* Options:
+  * Uses `-e` option to enable the interpretation of backslash escapes.
+  * Uses `-E` option to disable the interpretation of the backslash escapes.
+  * Uses `-n` option to disable the insertion of a new line.
+* Escapes:
+
+<table>
+    <thead>
+        <tr>
+            <th>Escape</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>\\</code></td>
+            <td>Backlash</td>
+        </tr>
+        <tr>
+            <td><code>\a</code></td>
+            <td>Alert</td>
+        </tr>
+        <tr>
+            <td><code>\b</code></td>
+            <td>Backspace</td>
+        </tr>
+        <tr>
+            <td><code>\c</code></td>
+            <td>Suppress trailing newline</td>
+        </tr>
+        <tr>
+            <td><code>\f</code></td>
+            <td>Form feed</td>
+        </tr>
+        <tr>
+            <td><code>\n</code></td>
+            <td>New line</td>
+        </tr>
+        <tr>
+            <td><code>\r</code></td>
+            <td>Carriage return</td>
+        </tr>
+        <tr>
+            <td><code>\t</code></td>
+            <td>Horizontal tab</td>
+        </tr>
+        <tr>
+            <td><code>\v</code></td>
+            <td>Vertica tab</td>
+        </tr>
+    </tbody>
+</table>
+
+* Example:
+
+```bash
+#!/bin/bash
+
+VAR=4
+echo -e "Value of a is $VAR\n"
+```
+
+#### Command Substitution
+
+* The mechanism by which the shell performs a given set of commands and then substitutes their output in the place of the commands.
+* Syntax: ``  `command` ``
+* Example:
+
+```bash
+#!/bin/bash
+
+DATE=`date`
+echo "Date: $DATE"
+```
+
+#### Variable Substitution
+
+* Enables the shell programmer to manipulate the value of a variable based on its state.
+* Forms:
+
+<table>
+    <thead>
+        <tr>
+            <th>Form</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>${var}</code></td>
+            <td>Substitutes the value of <code>var</code>.</td>
+        </tr>
+        <tr>
+            <td><code>${var:-word}</td>
+            <td>
+                If <code>var</code> is null or unset, word is substituted for <code>var</code>.<br/>
+                The value of <code>var</code> does not change.
+            </td>
+        </tr>
+        <tr>
+            <td><code>${var:=word}</td>
+            <td>If <code>var</code> is null or unset, <code>var</code> is set to the value of word.</td>
+        </tr>
+        <tr>
+            <td><code>${var:?message}</td>
+            <td>If <code>var</code> is null or unset, <code>message</code> is printed to standard error.</td>
+        </tr>
+        <tr>
+            <td>${var:+word}</td>
+            <td>
+                If <code>var</code> is set, word is substituted for <code>var</code>.</br>
+        		The value of <code>var</code> does not change.
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+### Quoting Mechanism
+
+#### The Metacharacters
+
+* The shell provides various metacharacters with special meaning, including: `* ? [ ] ' " \ $ ; & ( ) | ^ < > new-line space tab`.
+* Forms:
+
+<table>
+    <thead>
+        <tr>
+            <th>Quoting</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Single quote</td>
+            <td>All special characters between these quotes lose their special meaning.</td>
+        </tr>
+        <tr>
+            <td>Double quote</td>
+            <td>Most special characters between these quotes lose their special meaning except for: <code>$ ` \$ \` \" \'"' \\</code>.</td>
+        </tr>
+        <tr>
+            <td>Backslash</td>
+            <td>Any special character immediately following the backslash loses its special meaning.</td>
+        </tr>
+        <tr>
+            <td>Back quote</td>
+            <td>Anything in between back quotes would be treated as a command and would be executed.</td>
+        </tr>
+    </tbody>
+</table>
+
+* Example:
+
+```bash
+#!/bin/bash
+
+# Uses backlash 
+echo tis\;the\;damn\;season
+```
+
+#### The Single Quotes
+
+```bash
+#!/bin/bash
+
+# Uses single quotes
+echo '<-$400.**>; (update?) [y|n]'
+```
+
+#### The Double Quotes
+
+```bash
+#!/bin/bash
+
+# Uses double quotes
+VAR=PRADA
+echo "$VAR owes <-\$1500.**>; [ as of (`date +%m/%d`) ]
+```
+
+#### The Back Quotes
+
+```bash
+#!/bin/bash
+
+# Uses back quotes
+DATE=`date`
+echo "Today: $DATE"
+```
+
+### I/O Redirection
+
+#### Output Redirection
+
+* The output from a command can be easily diverted to a file instead of the standard output.
+* Syntax:
+  * `$ command > filename`
+    * Writes the output into a file. 
+    * If the file already contains some data, that data will be lost.
+  * `$ command >> filename`
+    * Appends the output into an existing file.
+* Example: 
+
+```bash
+$ who > users
+$ echo chungphb >> users
+```
+
+#### Input Redirection
+
+* The commands that normally take their input from the standard input can have their input redirected from a file.
+* Syntax: `$ command < filename`
+* Example:
+
+```bash
+$ wc -l < users
+```
+
+#### Here Document
+
+* Used to redirect input into an interactive shell script or program.
+* Syntax:
+
+```bash
+$ command << delimiter
+document
+delimeter
+```
+
+* Example:
+
+```bash
+$ wc -l << EOF
+	I just want you to know
+	This is me trying
+	EOF
+```
+
+#### Discard the Output
+
+* To discard the output, redirecs it to the file `/dev/null`:
+
+```bash
+$ command > /dev/null
+```
+
+* To discard both the output of a command and its error output, uses standard redirection to redirect ***STDERR*** to ***STDOUT***:
+
+```bash
+$ command > /dev/null 2>&1 # 0 = STDIN, 1 = STDOUT, 2 = STDERR
+```
+
+### Redirection Commands
+
+<table>
+    <thead>
+        <tr>
+            <th>Command</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>pgm &gt file</td>
+            <td>Output of program <code>pgm</code> is redirected to a file</td>
+        </tr>
+        <tr>
+            <td><code>pgm &lt file</td>
+            <td>Program <code>pgm</code> reads its input from a file</td>
+        </tr>
+        <tr>
+            <td><code>pgm &gt&gt file</td>
+            <td>Output of <code>pgm</code> is appended to a file</td>
+        </tr>
+        <tr>
+            <td><code>n &gt file</code></td>
+            <td>Output from stream with descriptor <code>n</code> redirected to file</td>
+        </tr>
+        <tr>
+            <td><code>n &gt&gt file</code></td>
+            <td>Output from stream with descriptor <code>n</code> appended to file</td>
+        </tr>
+        <tr>
+            <td><code>n &gt& m</code></td>
+            <td>Merges output from stream <code>n</code> with stream <code>m</code></td>
+        </tr>
+        <tr>
+            <td><code>n &lt& m</code></td>
+            <td>Merges input from stream <code>n</code> with stream <code>m</code></td>
+        </tr>
+        <tr>
+            <td><code>&lt&lt tag</code></td>
+            <td>Standard input comes from here through next tag at the start of line</td>
+        </tr>
+        <tr>
+            <td>|</td>
+            <td>Takes output from one program or process and sends it to another</td>
+        </tr>
+    </tbody>
+</table>
+
+### Functions
+
+#### Create Functions
+
+* Syntax:
+
+```bash
+function_name () {
+	list of commands
+}
+```
+
+* Example:
+
+```bash
+#!/bin/bash
+
+# Defines a function
+Today () {
+	DATE=`date`
+	echo "Today: $DATE"
+}
+
+# Passes parameters to a function
+Greet () {
+	echo "Hello $1"
+}
+
+# Returns from a function
+Add () {
+	RES=`expr $1 + $2`
+	return $RES
+}
+
+# Invokes
+Today
+Greet ChungPHB
+Add 1 2
+RET=$?
+echo "Return value is $RET"
+```
+
+#### Unset Functions
+
+* Executing a file in a shell causes functions defined inside of it to be read and defined to the shell as well.
+
+* To remove the definition of a function from the shell, uses the unset command with the `-f` option.
+
+```bash
+$ unset -f function_name
+```
 
 ## Advanced Unix / Linux
