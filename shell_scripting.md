@@ -623,8 +623,6 @@ $ finger
         </tr>
     </tbody>
 </table>
-
-
 #### Operation Modes
 
 ##### Command mode
@@ -679,8 +677,6 @@ Enables inserting text into the file.
         </tr>
     </tbody>
 </table>
-
-
 #### Commands
 
 ##### Edit Files
@@ -760,8 +756,6 @@ Enables inserting text into the file.
         </tr>
     </tbody>
 </table>
-
-
 ##### Change commands
 
 <table>
@@ -798,8 +792,6 @@ Enables inserting text into the file.
         </tr>
     </tbody>
 </table>
-
-
 ##### Copy and Paste Commands
 
 <table>
@@ -828,8 +820,6 @@ Enables inserting text into the file.
         </tr>
     </tbody>
 </table>
-
-
 #### Advanced Commands
 
 ##### Search Words and Characters
@@ -883,8 +873,6 @@ Enables inserting text into the file.
         </tr>
     </tbody>
 </table>
-
-
 * For character searches:
   * The `f` and `F` commands search for the character after the cursor on the current line.
     * `f` searches forwards.
@@ -946,8 +934,6 @@ Enables inserting text into the file.
         </tr>
     </tbody>
 </table>
-
-
 ##### Run Commands
 
 * To run commands from within the editor, goes to the command mode and type `:!` command. For example: `:! ls`.
@@ -1010,7 +996,7 @@ $ ./sample_script.sh
 ```bash
 VAR_1
 VAR_2
-_LXT
+_VAR
 ```
 
 #### Types
@@ -1085,11 +1071,11 @@ echo $CITY # Prints nothing
         </tr>
         <tr>
             <td><code>$n (n = 1, 2, etc.)</code></td>
-            <td>These variables correspond to the arguments with which a script was invoked.</td>
+            <td>The arguments with which the script was invoked.</td>
         </tr>
         <tr>
             <td><code>$#</code></td>
-            <td>The number of arguments supplied to a script</td>
+            <td>The number of arguments supplied to the script</td>
         </tr>
         <tr>
             <td><code>$*</code></td>
@@ -1114,15 +1100,16 @@ echo $CITY # Prints nothing
     </tbody>
 </table>
 
+
 ```bash
 #!/bin/bash
 
 echo "Script name: $0"
+echo "Number of arguments: $#"
 echo "The 1st argument: $1"
 echo "The 2nd argument: $2"
-echo "Quoted values: $*"
-echo "Quoted values: $@"
-echo "Number of argument: $#"
+echo "All arguments: $*"
+echo "All arguments: $@"
 
 # ./sample_script.sh Taylor Swift
 ```
@@ -1137,7 +1124,7 @@ echo "Number of argument: $#"
 ```bash
 #!/bin/bash
 
-SONGS=("All Too Well" "august", "Blank Space", "Enchanted", "Style", "tis the damn season")
+SONGS=("All Too Well" "august" "Blank Space" "Enchanted" "Style" "tis the damn season")
 ```
 
 #### Access Arrays
@@ -1149,7 +1136,7 @@ SONGS=("All Too Well" "august", "Blank Space", "Enchanted", "Style", "tis the da
 ```bash
 #!/bin/bash
 
-SONGS=("All Too Well" "august", "Blank Space", "Enchanted", "Style", "tis the damn season")
+SONGS=("All Too Well" "august" "Blank Space" "Enchanted" "Style" "tis the damn season")
 echo "The best song of Taylor Swift: ${SONGS[0]}"
 echo "The second best song of Taylor Swift: ${SONGS[1]}"
 echo "The best songs of Taylor Swift: ${SONGS[*]}"
@@ -1244,7 +1231,7 @@ echo "The best songs of Taylor Swift: ${SONGS[*]}"
 FILE="/home/chungphb/sample/sample.txt"
 
 # Checks if a file exists
-if [ -d $FILE ]
+if [ -e $FILE ]
 then
 	echo "File exists"
 else
@@ -1359,8 +1346,10 @@ if [ $VAR_1 == $VAR_2 ]
 then
 	echo "$VAR_1 is equal to $VAR_2"
 elif [ $VAR_1 -gt $VAR_2 ]
+then
 	echo "$VAR_1 is greater than $VAR_2"
 elif [ $VAR_1 -lt $VAR_2 ]
+then
 	echo "$VAR_1 is less than $VAR_2"
 else
 	echo "Something went wrong"
@@ -1428,7 +1417,7 @@ case ${OPTION} in
         echo "File name is $FILE"
         ;;
 	-d)
-        DIR="{2}"
+        DIR="${2}"
         echo "Dir name is $DIR"
         ;;
 	*)
@@ -1741,7 +1730,7 @@ echo "Date: $DATE"
 
 ### Quoting Mechanism
 
-#### The Metacharacters
+#### The Meta-characters
 
 * The shell provides various metacharacters with special meaning, including: `* ? [ ] ' " \ $ ; & ( ) | ^ < > new-line space tab`.
 * Forms:
@@ -1760,7 +1749,7 @@ echo "Date: $DATE"
         </tr>
         <tr>
             <td>Double quote</td>
-            <td>Most special characters between these quotes lose their special meaning except for: <code>$ ` \$ \` \" \'"' \\</code>.</td>
+            <td>Most special characters between these quotes lose their special meaning except for: <code>$ ` \$ \` \" \' \\</code>.</td>
         </tr>
         <tr>
             <td>Backslash</td>
@@ -1772,6 +1761,7 @@ echo "Date: $DATE"
         </tr>
     </tbody>
 </table>
+
 
 * Example:
 
@@ -1956,7 +1946,7 @@ Add () {
 	return $RES
 }
 
-# Invokes
+# Invoke a function
 Today
 Greet ChungPHB
 Add 1 2
@@ -1974,4 +1964,640 @@ echo "Return value is $RET"
 $ unset -f function_name
 ```
 
+### Man pages
+
+* The Unix's version of Help files.
+* Syntax:
+
+```bash
+$ man command
+```
+
+* Example:
+
+```bash
+$ man pwd
+```
+
+* Sections:
+
+<table>
+    <thead>
+        <tr>
+            <th>Section</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>NAME</td>
+            <td>Name of the command</td>
+        </tr>
+        <tr>
+            <td>SYNOPSIS</td>
+            <td>General usage parameters of the command</td>
+        </tr>
+        <tr>
+            <td>DESCRIPTION</td>
+            <td>What the command does</td>
+        </tr>
+        <tr>
+            <td>OPTIONS</td>
+            <td>All the options to the command</td>
+        </tr>
+        <tr>
+            <td>SEE ALSO</td>
+            <td>Commands related to the command</td>
+        </tr>
+        <tr>
+            <td>BUGS</td>
+            <td>Known issues or bugs that exist with the command</td>
+        </tr>
+        <tr>
+            <td>EXAMPLES</td>
+            <td>Common usage examples</td>
+        </tr>
+        <tr>
+            <td>AUTHORS</td>
+            <td>The author of the man page</td>
+        </tr>
+    </tbody>
+</table>
+
 ## Advanced Unix / Linux
+
+### Regular Expressions with `sed`
+
+#### General Syntax
+
+```bash
+/pattern/action
+
+# Parameters:
+# - pattern is a regular expression
+# - action is either:
+# p 						| Prints the line
+# d 						| Deletes the line
+# s/pattern_1/pattern_2/	| Substitutes the first occurrence of pattern_1 with pattern_2
+# - If pattern is omitted, action is performed for every line.
+```
+
+#### The `d` option
+
+```bash
+# Deletes all lines
+$ cat sample.txt | sed 'd'
+# or
+$ sed -e 'd' sample.txt
+
+# Deletes the first line and prints the rest
+$ cat sample.txt | sed '1d' | more
+
+# Deletes the first 4 lines and prints the rest
+$ cat sample.txt | sed '1,4d' | more
+
+# Deletes the 4th line and the next 4 lines
+$ cat sample.txt | sed '4,+4d' | more
+
+# Deletes everything except for the lines between the 1st line and the 4th line
+$ cat sample.txt | sed '1,4!d' | more
+
+# Deletes the 1st, 5th, 9th, ... lines
+$ cat sample.txt | sed '1~4d' | more
+```
+
+#### The `s` option
+
+```bash
+# Substitues the first occurrence of a string on each line
+$ cat sample.txt | sed 's/root/chungphb' | more
+
+# Substitues all occurrences of a string on each line
+$ cat sample.txt | sed 's/root/chungphb/g' | more
+
+# Flags:
+# g 			| Replaces all matches
+# K 			| Replaces the K-th match
+# p 			| Prints the pattern space if substitution was made
+# w FILENAME 	| Writes the result to FILENAME if substitution was made
+# l or i 		| Matches in a case-insensitive manner
+# M or m		| Causes ^ and $ to match the empty string after and before a new line respectively
+
+# Substitues all occurrences of a string containing the '\' character on each line
+$ cat sample.txt | sed 's:/root:/chungphb:g' | more
+
+# Substitues all occurrences of a string by an empty string on each line
+$ cat sample.txt | sed 's/root//g' | more
+
+# Substitues all occurrences of a string on the 4th line only
+$ cat sample.txt | sed '4s/root/chungphb/g' | more
+
+# Substitues all occurrences of a string on the first 4 lines only
+$ cat sample.txt | sed '1,4s/root/chungphb/g' | more
+```
+
+#### The `p` option
+
+```bash
+# Prints all the matching lines
+$ cat sample.txt | sed -n '/root/p'
+```
+
+#### Regular Expression
+
+```bash
+# Deletes all the lines starting with a given string
+$ cat sample.txt | sed '/^Hello/d'
+
+# Deletes all the lines ending with a given string
+$ cat sample.txt | sed '/Goodbye$/d'
+
+# Special characters:
+# ^ 		| Matches the beginning of a line
+# $ 		| Matches the end of a line
+# . 		| Matches any single character
+# * 		| Matches zero or more occurrences of the previous character
+# [chars]	| Matches any one of the characters given in chars
+
+# Deletes all the blank lines
+$ cat sample.txt | sed '/^$/d'
+
+# Prints all the lines containing "Root" or "root"
+$ cat sample.txt | sed -n '/[Rr]oot/p'
+
+# Frequently used sets of characters
+# [a-z]		| Matches a single lowercase letter
+# [A-Z]		| Matches a single uppercase letter
+# [a-zA-Z]	| Matches a single letter
+# [0-9]		| Matches a single digit
+
+# Character class in GNU sed
+# [[:alnum:]]	| [a-zA-Z0-9]
+# [[:alpha:]]	| [a-zA-Z]
+# [[:blank:]]	| Blank characters
+# [[:cntrl:]]	| Control characters
+# [[:digit:]]	| [0-9]
+# [[:graph:]]	| Any visible characters (excludes whitespace)
+# [[:lower:]]	| [a-z]
+# [[:print:]]	| Printable characters
+# [[:punct:]]	| Punctuation characters
+# [[:space:]]	| White space
+# [[:upper:]]	| [A-Z]
+# [[:xdigit:]]	| [0-9a-fA-F]
+```
+
+#### Ampersand Referencing
+
+* Uses the ampersand replacement character `&` to replace the contents of the pattern that was matched.
+
+* Example:
+
+```bash
+# cat phone_numbers.txt
+# 1111110001
+# 1112220002
+# 1113330003
+
+$ sed -e 's/^[[:digit:]][[:digit:]][[:digit:]]/(&)/g' phone_numbers.txt
+(111)1110001
+(111)2220002
+(111)3330003
+```
+
+#### Multiple `sed` Commands
+
+* Syntax:
+
+```bash
+$ sed -e 'command_1' -e 'command_2' ... -e 'command_N' files
+```
+
+* Example:
+
+```bash
+# cat phone_numbers.txt
+# 1111110001
+# 1112220002
+# 1113330003
+
+$ sed -e 's/^[[:digit:]]\{3\}/(&)/g' -e 's/)[[:digit:]]\{3\}/&-/g' phone_numbers.txt
+(111)111-0001
+(111)222-0002
+(111)333-0003
+```
+
+#### Back Referencing
+
+* Includes defining a region and referring back to that region. 
+  * To define a region, inserts the backslashed parentheses `\( \)` around it.
+  * To refer back to the `N`-th region, uses `\N`.
+* Example:
+
+```bash
+# cat phone_numbers.txt
+# (111)111-0001
+# (111)222-0002
+# (111)333-0003
+
+$ cat phone_numbers.txt | sed 's/\(.*)\)\(.*-\)\(.*$\)/First: \1; Second: \2; Third: \3/'
+First: (111); Second: 111-; Third: 0001
+First: (111); Second: 222-; Third: 0002
+First: (111); Second: 333-; Third: 0003
+```
+
+### File System
+
+#### Structure
+
+<table>
+    <thead>
+        <tr>
+            <th>Directory</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>/</td>
+            <td>The root directory</td>
+        </tr>
+        <tr>
+            <td>/bin</td>
+            <td>Contains executable files</td>
+        </tr>
+        <tr>
+            <td>/dev</td>
+            <td>Contains device drivers</td>
+        </tr>
+        <tr>
+            <td>/etc</td>
+            <td>Contains supervisor directory commands, configuration files, disk configuration files, user lists, groups, etc.</td>
+        </tr>
+        <tr>
+            <td>/lib</td>
+            <td>Contains shared library files</td>
+        </tr>
+        <tr>
+            <td>/boot</td>
+            <td>Contains files to boot the system</td>
+        </tr>
+        <tr>
+            <td>/home</td>
+            <td>Contains the home directory for users</td>
+        </tr>
+        <tr>
+            <td>/mnt</td>
+            <td>Used to mount other temporary file systems</td>
+        </tr>
+        <tr>
+            <td>/proc</td>
+            <td>Contains all processes marked as a file</td>
+        </tr>
+        <tr>
+            <td>/tmp</td>
+            <td>Holds temporary files</td>
+        </tr>
+        <tr>
+            <td>/usr</td>
+            <td>Used for miscellaneous purposes</td>
+        </tr>
+        <tr>
+            <td>/var</td>
+            <td>Typically contains variable-length files such as log and print files</td>
+        </tr>
+        <tr>
+            <td>/sbin</td>
+            <td>Contains binary files, usually for system administration</td>
+        </tr>
+        <tr>
+            <td>/kernel</td>
+            <td>Contains kernel files</td>
+        </tr>
+    </tbody>
+</table>
+
+#### Manipulate a File System
+
+<table>
+    <thead>
+        <tr>
+            <th>Command</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>cat &ltfile&gt</code></td>
+            <td>Displays a file</td>
+        </tr>
+        <tr>
+            <td><code>cd &ltdir&gt</code></td>
+            <td>Moves to a directory</td>
+        </tr>
+        <tr>
+            <td><code>cp &ltfile_1&gt &ltfile_2&gt</code></td>
+            <td>Copies files / directories to another location</td>
+        </tr>
+        <tr>
+            <td><code>file &ltfile&gt</code></td>
+            <td>Displays the file type</td>
+        </tr>
+        <tr>
+            <td><code>find &ltfile&gt &ltdir&gt</code></td>
+            <td>Finds a file / directory</td>
+        </tr>
+        <tr>
+            <td><code>head &ltfile&gt</code></td>
+            <td>Shows the beginning of a file</td>
+        </tr>
+        <tr>
+            <td><code>less &ltfile&gt</code></td>
+            <td>Browses through a file </td>
+        </tr>
+        <tr>
+            <td><code>ls &ltdir&gt</code></td>
+            <td>Shows the contents of a directory</td>
+        </tr>
+        <tr>
+            <td><code>mkdir &ltdir&gt</code></td>
+            <td>Creates a directory</td>
+        </tr>
+        <tr>
+            <td><code>more &ltfile&gt</code></td>
+            <td>Browses through a file</td>
+        </tr>
+        <tr>
+            <td><code>mv &ltfile_1&gt &ltfile_2&gt</code></td>
+            <td>Moves or renames a file / directory</td>
+        </tr>
+        <tr>
+            <td><code>pwd</code></td>
+            <td>Shows the current directory</td>
+        </tr>
+        <tr>
+            <td><code>rm &ltfile&gt</code></td>
+            <td>Removes a file</td>
+        </tr>
+        <tr>
+            <td><code>rmdir &ltdir&gt</code></td>
+            <td>Removes a directory</td>
+        </tr>
+        <tr>
+            <td><code>tail &ltfile&gt</code></td>
+            <td>Shows the end of a file</td>
+        </tr>
+        <tr>
+            <td><code>touch &ltfile&gt</code></td>
+            <td>Creates a blank file, or modifies an existing file</td>
+        </tr>
+        <tr>
+            <td><code>whereis &ltfile&gt</code></td>
+            <td>Shows the location of a file</td>
+        </tr>
+        <tr>
+            <td><code>which &ltfile&gt</code></td>
+            <td>Shows the location of a file if it is in the `PATH`</td>
+        </tr>
+    </tbody>
+</table>
+
+#### The `df` Command
+
+* Displays the disk space usage of partitions.
+* Result:
+
+<table>
+    <thead>
+        <tr>
+            <th>Column</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Filesystem</td>
+            <td>File system's name</td>
+        </tr>
+        <tr>
+            <td>1K-blocks</td>
+            <td>Total kilobytes of space available</td>
+        </tr>
+        <tr>
+            <td>Used</td>
+            <td>Total kilobytes of used space</td>
+        </tr>
+        <tr>
+            <td>Available</td>
+            <td>Total kilobytes available for use</td>
+        </tr>
+        <tr>
+            <td>Use%</td>
+            <td>Percentage of total used space</td>
+        </tr>
+        <tr>
+            <td>Mounted on</td>
+            <td>What the file system is mounted on</td>
+        </tr>
+    </tbody>
+</table>
+
+* Example:
+
+```bash
+$ df -k
+# Uses -h for a more human readable format
+$ df -h
+```
+
+#### The `du` Command
+
+* Displays the disk space usage of a specific directory.
+* Example:
+
+```bash
+$ du /tmp
+# Uses -h for a more human readable format
+$ du -h /tmp
+```
+
+#### Mount and Unmount a File System
+
+* A file system must be mounted in order to be usable by the system.
+  * To see what is currently mounted: ```$ mount```.
+  * To mount a file system: `$ mount -t <file_system_type> <device_to_mount> <device_to_mount_to> `
+* Example:
+
+```bash
+# Mounts a CD-ROM to the directory /mnt/cdrom
+$ mount -t iso9660 /dev/cdrom /mnt/cdrom
+```
+
+#### User and Group Quotas
+
+* Provides the mechanisms by which the amount of space used by a single  user or all users within a specific group can be limited to a value  defined by the administrator.
+* There are two kinds of limits:
+  * Soft limit
+  * Hard limit
+
+### User Administration
+
+* Main user administration files:
+
+<table>
+    <thead>
+        <tr>
+            <th>File</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>/etc/passwd</td>
+            <td>Keeps the user account and password information</td>
+        </tr>
+        <tr>
+            <td>/etc/shadow</td>
+            <td>Holds the encrypted password of the corresponding account</td>
+        </tr>
+        <tr>
+            <td>/etc/group</td>
+            <td>Contains the group information for each account</td>
+        </tr>
+        <tr>
+            <td>/etc/gshadow</td>
+            <td>Contains secure group account information</td>
+        </tr>
+    </tbody>
+</table>
+* Commands:
+
+<table>
+    <thead>
+        <tr>
+            <th>Command</th>
+            <th>Description</th>
+            <th>Syntax</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>useradd</code></td>
+            <td>Adds an account</td>
+            <td><code>useradd [-d &lthome_dir&gt] [-g &ltgroup_name&gt] [-m] [-s &ltshell&gt] [-u &ltuser_id&gt] &ltaccount_name&gt</code></td>
+        </tr>
+        <tr>
+            <td><code>usermod</code></td>
+            <td>Modifies an account</td>
+            <td><code>usermod [-d &lthome_dir&gt] [-g &ltgroup_name&gt] [-m] [-s &ltshell&gt] [-u &ltuser_id&gt] [-l &ltnew_account_name&gt] &ltaccount_name&gt</code></td>
+        </tr>
+        <tr>
+            <td><code>userdel</code></td>
+            <td>Deletes an account</td>
+            <td><code>userdel [-r] &ltaccount_name&gt</code></td>
+        </tr>
+        <tr>
+            <td><code>groupadd</code></td>
+            <td>Adds a group</td>
+            <td><code>groupadd [-g GID [-o]] [-r] [-f] &ltgroup_name&gt</code></td>
+        </tr>
+        <tr>
+            <td><code>groupmod</code></td>
+            <td>Modifies a group</td>
+            <td><code>groupmod [-g GID [-o]] [-r] [-f] [-n &ltnew_group_name&gt] &ltgroup_name&gt</code></td>
+        </tr>
+        <tr>
+            <td><code>groupdel</code></td>
+            <td>Removes a group</td>
+            <td><code>groupdel &ltgroup_name&gt</code></td>
+        </tr>
+    </tbody>
+</table>
+
+### System Performance
+
+#### Performance Components
+
+<table>
+    <thead>
+        <tr>
+            <th>Component</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>User State CPU</td>
+            <td>The amount of time the CPU spends on running the program in the user state</td>
+        </tr>
+        <tr>
+            <td>System State CPU</td>
+            <td>The amount of time the CPU spends in the system state on behalf of the program</td>
+        </tr>
+        <tr>
+            <td>I/O Time and Network Time</td>
+            <td>The amount of time spent on moving data and servicing I/O requests</td>
+        </tr>
+        <tr>
+            <td>Virtual Memory Performance</td>
+            <td>The amount of time spent on context switching and swapping</td>
+        </tr>
+        <tr>
+            <td>Other Programs</td>
+            <td>The amount of time spent on running other programs</td>
+        </tr>
+    </tbody>
+</table>
+
+#### Performance Tools
+
+<table>
+    <thead>
+        <tr>
+            <th>Command</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>nice/renice</code></td>
+            <td>Runs a program with the modified scheduling priority</td>
+        </tr>
+        <tr>
+            <td><code>netstat</code></td>
+            <td>Prints network connections, routing tables, interface statistics, masquerade connections, and multicast memberships</td>
+        </tr>
+        <tr>
+            <td><code>time</code></td>
+            <td>Times a simple command</td>
+        </tr>
+        <tr>
+            <td><code>uptime</code></td>
+            <td>System Load Average</td>
+        </tr>
+        <tr>
+            <td><code>ps</code></td>
+            <td>Reports a snapshot of the current processes</td>
+        </tr>
+        <tr>
+            <td><code>vmstat</code></td>
+            <td>Reports the virtual memory statistics</td>
+        </tr>
+        <tr>
+            <td><code>gprof</code></td>
+            <td>Displays the call graph profile data</td>
+        </tr>
+        <tr>
+            <td><code>prof</code></td>
+            <td>Facilitates Process Profiling</td>
+        </tr>
+        <tr>
+            <td><code>top</code></td>
+            <td>Displays the system tasks</td>
+        </tr>
+    </tbody>
+</table>
+
+### System Logging
+
+### Signals and Traps
+
